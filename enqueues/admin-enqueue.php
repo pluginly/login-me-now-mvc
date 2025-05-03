@@ -1,6 +1,6 @@
 <?php
 
-use MyPluginNamespace\WpMVC\Enqueue\Enqueue;
+use LoginMeNow\WpMVC\Enqueue\Enqueue;
 
 defined( 'ABSPATH' ) || exit;
 

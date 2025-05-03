@@ -1,5 +1,5 @@
 <?php
 
-namespace MyPluginNamespace\App\Http\Controllers;
+namespace LoginMeNow\App\Http\Controllers;
 
 class Controller {}

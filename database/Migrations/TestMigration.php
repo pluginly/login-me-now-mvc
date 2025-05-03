@@ -1,8 +1,8 @@
 <?php
 
-namespace MyPluginNamespace\Database\Migrations;
+namespace LoginMeNow\Database\Migrations;
 
-use MyPluginNamespace\WpMVC\Contracts\Migration;
+use LoginMeNow\WpMVC\Contracts\Migration;
 
 class TestMigration implements Migration {
     public function more_than_version() {

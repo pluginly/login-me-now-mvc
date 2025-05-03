@@ -2,31 +2,31 @@
 
 defined( 'ABSPATH' ) || exit;
 
-use MyPluginNamespace\WpMVC\App;
+use LoginMeNow\WpMVC\App;
 
 /**
- * Plugin Name:       MyPluginName
+ * Plugin Name:       Login Me Now 2.0
  * Description:       This plugin is build with WpMVC framework
- * Version:           1.0.0
+ * Version:           2.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
- * Tested up to:      6.2
+ * Tested up to:      6.8
  * Author:            WpMVC
  * Author URI:        http://github.com/wpmvc
  * License:           GPL v3 or later
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
- * Text Domain:       MyPluginTextDomain
+ * Text Domain:       login-me-now
  * Domain Path:       /languages
  */
 
 require_once __DIR__ . '/vendor/vendor-src/autoload.php';
 require_once __DIR__ . '/app/Helpers/helper.php';
 
-final class MyPluginClass
+final class LoginMeNow
 {
-    public static MyPluginClass $instance;
+    public static LoginMeNow $instance;
 
-    public static function instance(): MyPluginClass {
+    public static function instance(): LoginMeNow {
         if ( empty( self::$instance ) ) {
             self::$instance = new self;
         }
@@ -45,14 +45,14 @@ final class MyPluginClass
         add_action(
             'plugins_loaded', function () use ( $application ): void {
 
-                do_action( 'before_load_my_plugin_hook' );
+                do_action( 'before_load_login_me_now' );
 
                 $application->load();
 
-                do_action( 'after_load_my_plugin_hook' );
+                do_action( 'after_load_login_me_now' );
             }
         );
     }
 }
 
-MyPluginClass::instance()->load();
+LoginMeNow::instance()->load();

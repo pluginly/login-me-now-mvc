@@ -2,42 +2,42 @@
 
 defined( 'ABSPATH' ) || exit;
 
-use MyPluginNamespace\WpMVC\App;
-use MyPluginNamespace\DI\Container;
+use LoginMeNow\WpMVC\App;
+use LoginMeNow\DI\Container;
 
-function my_plugin_function():App {
+function login_me_now():App {
     return App::$instance;
 }
 
-function my_plugin_function_config( string $config_key ) {
-    return my_plugin_function()::$config->get( $config_key );
+function login_me_now_config( string $config_key ) {
+    return login_me_now()::$config->get( $config_key );
 }
 
-function my_plugin_function_app_config( string $config_key ) {
-    return my_plugin_function_config( "app.{$config_key}" );
+function login_me_now_app_config( string $config_key ) {
+    return login_me_now_config( "app.{$config_key}" );
 }
 
-function my_plugin_function_version() {
-    return my_plugin_function_app_config( 'version' );
+function login_me_now_version() {
+    return login_me_now_app_config( 'version' );
 }
 
-function my_plugin_function_container():Container {
-    return my_plugin_function()::$container;
+function login_me_now_container():Container {
+    return login_me_now()::$container;
 }
 
-function my_plugin_function_singleton( string $class ) {
-    return my_plugin_function_container()->get( $class );
+function login_me_now_singleton( string $class ) {
+    return login_me_now_container()->get( $class );
 }
 
-function my_plugin_function_url( string $url = '' ) {
-    return my_plugin_function()->get_url( $url );
+function login_me_now_url( string $url = '' ) {
+    return login_me_now()->get_url( $url );
 }
 
-function my_plugin_function_dir( string $dir = '' ) {
-    return my_plugin_function()->get_dir( $dir );
+function login_me_now_dir( string $dir = '' ) {
+    return login_me_now()->get_dir( $dir );
 }
 
-function my_plugin_function_render( string $content ) {
+function login_me_now_render( string $content ) {
     //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     echo $content;
 }

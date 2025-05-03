@@ -1,8 +1,8 @@
 <?php
 
-namespace MyPluginNamespace\App\Http\Middleware;
+namespace LoginMeNow\App\Http\Middleware;
 
-use MyPluginNamespace\WpMVC\Routing\Contracts\Middleware;
+use LoginMeNow\WpMVC\Routing\Contracts\Middleware;
 use WP_REST_Request;
 
 class EnsureIsUserAdmin implements Middleware
