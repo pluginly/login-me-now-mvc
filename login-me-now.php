@@ -22,37 +22,36 @@ use LoginMeNow\WpMVC\App;
 require_once __DIR__ . '/vendor/vendor-src/autoload.php';
 require_once __DIR__ . '/app/Helpers/helper.php';
 
-final class LoginMeNow
-{
-    public static LoginMeNow $instance;
+final class LoginMeNow {
+	public static LoginMeNow $instance;
 
-    public static function instance(): LoginMeNow {
-        if ( empty( self::$instance ) ) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
+	public static function instance(): LoginMeNow {
+		if ( empty( self::$instance ) ) {
+			self::$instance = new self;
+		}
 
-    public function load() {
-        $application = App::instance();
+		return self::$instance;
+	}
 
-        $application->boot( __FILE__, __DIR__ );
+	public function load() {
+		$application = App::instance();
 
-        /**
-         * Fires once activated plugins have loaded.
-         *
-         */
-        add_action(
-            'plugins_loaded', function () use ( $application ): void {
+		$application->boot( __FILE__, __DIR__ );
 
-                do_action( 'before_load_login_me_now' );
+		/**
+		 * Fires once activated plugins have loaded.
+		 */
+		add_action(
+			'init', function () use ( $application ): void {
 
-                $application->load();
+				do_action( 'before_load_login_me_now' );
 
-                do_action( 'after_load_login_me_now' );
-            }
-        );
-    }
+				$application->load();
+
+				do_action( 'after_load_login_me_now' );
+			}
+		);
+	}
 }
 
 LoginMeNow::instance()->load();

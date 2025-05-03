@@ -1,8 +1,12 @@
 <?php
 
+use LoginMeNow\App\Http\Middleware\EnsureIsUserAdmin;
+
 defined( 'ABSPATH' ) || exit;
 
-use LoginMeNow\App\Http\Middleware\EnsureIsUserAdmin;
+use LoginMeNow\App\Providers\IntegrationServiceProvider;
+use LoginMeNow\App\Providers\LoginFormServiceProvider;
+use LoginMeNow\App\Providers\LoginServiceProvider;
 use LoginMeNow\App\Providers\MenuServiceProvider;
 // use LoginMeNow\Database\Migrations\TestMigration;
 use LoginMeNow\WpMVC\Helpers\Helpers;
@@ -46,7 +50,11 @@ return [
 	/**
 	 * Service providers for the plugin.
 	 */
-	'providers'                   => [],
+	'providers'                   => [
+		LoginFormServiceProvider::class,
+		IntegrationServiceProvider::class,
+		LoginServiceProvider::class,
+	],
 
 	/**
 	 * Service providers for the admin area of the plugin.

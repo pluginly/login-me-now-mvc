@@ -1,0 +1,283 @@
+.wp-admin {
+	overflow-y: scroll;
+}
+
+.single-field-item a {
+    color: #1557b3;
+}
+
+.ant-select-multiple .ant-select-selection-overflow-item {
+    padding: 7px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #333;
+    font-size: 14px;
+    appearance: none; /* removes default arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    margin: 5px;
+}
+
+.ant-select.ant-select-in-form-item {
+    width: 100%;
+    min-height: 50px;
+}
+
+.ant-select-show-arrow.ant-select-disabled:after {
+	content: "Upgrade to PRO ";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    text-align: center;
+    background: #e5e5e5ad;
+    display: flex;
+    justify-content: center;
+    align-items: anchor-center;
+}
+
+.ant-select-multiple .ant-select-selection-overflow-item.ant-select-selection-overflow-item-suffix {
+    border: 0;
+}
+
+:where(.css-dev-only-do-not-override-f7vrd6).ant-select-outlined.ant-select-multiple .ant-select-selection-item {
+	background: transparent;
+}
+
+.custom-checkbox-class {
+	display: flex;
+    margin-bottom: 20px;
+	margin-top: 10px;
+    justify-content: space-between;
+}
+
+.form-field-item-heading {
+    margin-bottom: 10px;
+    padding-top: 15px;
+}
+
+.login-me-now-separator {
+    background: #d9e8fc;
+    width: 100%;
+    height: 1px;
+}
+
+.single-field-item {
+    padding: 0 20px;
+}
+
+.custom-checkbox-class .ant-form-item.css-dev-only-do-not-override-f7vrd6 {margin-bottom: 0;}
+
+#wpbody-content > .notice,
+#wpbody-content > .error {
+	display: none !important;
+}
+
+.lmn-menu-page-wrapper,
+.lmn-menu-page-wrapper * {
+	box-sizing: border-box;
+}
+
+.lmn-menu-page-wrapper a:focus,
+.lmn-menu-page-wrapper button:focus,
+.lmn-menu-page-wrapper input:focus {
+	box-shadow: none;
+	outline: none;
+}
+
+.toplevel_page_login-me-now #wpcontent {
+	padding-left: 0;
+}
+
+#wpwrap {
+	background-color: #f8fafc; // Tailwind Slate-50.
+	.login-me-now-admin {
+		&__input-field {
+			color: #64748b; // Tailwind Slate-500.
+			background-color: #fff;
+			border: 1px solid #e2e8f0; // Tailwind Slate-200.
+			border-radius: 0.375rem;
+			padding: 0.5rem 0.75rem;
+			font-size: 1rem;
+			//stylelint-disable-next-line declaration-property-unit-allowed-list
+			line-height: 1.25rem;
+
+			&:focus {
+				outline: none;
+				border-color: $slate-400;
+				box-shadow: none;
+
+				& + .login-me-now-admin__input-field--end-display {
+					border-color: $slate-400;
+					box-shadow: none;
+				}
+			}
+		}
+
+		&__dropdown {
+			padding-right: 2rem;
+
+			&:hover {
+				color: #2c3338;
+			}
+		}
+
+		&__block-label {
+			box-sizing: content-box;
+		}
+	}
+}
+
+.login-me-now-dep-field-false {
+	pointer-events: none;
+	opacity: 0.4;
+}
+
+.lmn-menu-page-wrapper, .ast-kb-section {
+	font-family: Inter, sans-serif;
+}
+
+.login-me-now-video-container {
+	position: relative;
+	width: 100%;
+	padding-bottom: 56.25%;
+
+	.login-me-now-video {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+}
+
+// The Block SVGs when Disabled
+.login-me-now-icon-transition {
+	svg,
+	path {
+		transition-property: stroke;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		transition-duration: 150ms;
+	}
+}
+
+// Changelog Styling.
+.login-me-now-changelog-description {
+	strong {
+		font-weight: 500;
+		font-size: 0.875rem;
+		//stylelint-disable-next-line declaration-property-unit-allowed-list
+		line-height: 1.25rem;
+		color: #1e293b;
+	}
+	ul {
+		margin-top: 0.25rem;
+		margin-bottom: 0.75rem;
+
+		&:last-child {
+			margin-top: 0;
+		}
+	}
+	li {
+		font-weight: 400;
+		font-size: 0.75rem;
+		//stylelint-disable-next-line declaration-property-unit-allowed-list
+		line-height: 1rem;
+		color: #64748b;
+	}
+}
+
+.ast-welcome-screen .ast-licensing-wrap {
+	padding-left: 2rem;
+	padding-right: 2rem;
+}
+
+.ast-kb-inner-wrap .ast-box-shadow-none {
+	box-shadow: none;
+}
+
+.ast-kb-inner-wrap .ast-docs-search-fields {
+	padding: 9px 0;
+	padding-left: 2.875rem;
+	border: 1px solid #CBD5E1;
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+	border-radius: 6px;
+	line-height: 1.625rem;
+}
+.ast-docs-search-fields[type="search"]::-webkit-search-cancel-button {
+	height: 1em;
+	width: 1em;
+	font-size: 2em;
+	opacity: 0;
+	position: absolute;
+	left: 1rem;
+	pointer-events: all;
+	z-index: 999;
+}
+
+// RTL version compat.
+[dir=rtl] .login-me-now-dashboard-app button.bg-lmn[aria-checked=false] span {
+    right: 0;
+}
+.translate-x-5.toggle-bubble {
+	--tw-translate-x: 1.02rem;
+}
+[dir=rtl] .login-me-now-dashboard-app button.bg-lmn[aria-checked=true] .toggle-bubble {
+    transform: translateX(18px);
+}
+
+/** Reverting tailwind build CSS for admin bar. */
+.ab-top-menu img, #adminmenumain img {
+    display: initial;
+    vertical-align: initial;
+}
+
+@media (max-width: 781px) {
+	div.ast-changelog-popup-wrap {
+		margin-top: 46px; // Managed as per admin bar height.
+	}
+	div .tablet\:w-full {
+		width: 100%;
+	}
+	div .tablet\:my-2 {
+		margin-top: 0.5rem;
+		margin-bottom: 0.5rem;
+	}
+	div .tablet\:my-4 {
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+	}
+	div .tablet\:my-16 {
+		margin-top: 4rem;
+		margin-bottom: 4rem;
+	}
+	div .tablet\:block {
+		display: block;
+	}
+	div .tablet\:mr-2 {
+		margin-right: 0.5rem;
+	}
+	div .-tablet\:mt\:10 {
+		margin-top: -2.5rem;
+	}
+	div .tablet\:none {
+		display: none;
+	}
+}
+@media (max-width: 600px) {
+	.ast-kb-section {
+		margin-top: 20px;
+	}
+	.ast-kb-inner-wrap {
+		padding: 0;
+	}
+	.ast-kb-caret {
+		align-items: flex-start;
+	}
+	.ast-kb-caret svg {
+		margin-top: 3px;
+	}
+}

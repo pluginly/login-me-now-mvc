@@ -6,8 +6,17 @@ const devHost = 'wpmvc.test';
 module.exports = {
 	...defaultConfig,
 	entry: {
-		'js/app': './resources/js/app.js',
-		'css/app': './resources/sass/app.scss',
+		'dashboard-app': './resources/js/dashboard/DashboardApp.js',
+	},
+	resolve: {
+		alias: {
+			'@DashboardApp': path.resolve( __dirname, 'resources/js/dashboard/dashboard-app/' ),
+			'@Admin': path.resolve( __dirname, 'resources/js/dashboard/' ),
+			'@Utils': path.resolve( __dirname, 'resources/js/dashboard/utils/' ),
+			'@Skeleton': path.resolve( __dirname, 'resources/js/dashboard/common/skeleton/' ),
+			'@Common': path.resolve( __dirname, 'resources/js/dashboard/common/' ),
+			'@helpers': path.resolve( __dirname, 'resources/js/helpers' ),
+		},
 	},
 	output: {
 		path: path.resolve( __dirname, './assets/build/' ),

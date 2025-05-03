@@ -1,6 +1,4 @@
 <?php
 
-use LoginMeNow\App\Http\Controllers\UserController;
-use LoginMeNow\WpMVC\Routing\Route;
-
-Route::get( 'user', [UserController::class, 'index'], ['admin'] );
+include __DIR__ . '/admin-settings.php';
+include __DIR__ . '/browser-token.php';
