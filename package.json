@@ -1,0 +1,37 @@
+{
+	"name": "wpmvc",
+	"version": "1.0.0",
+	"description": "",
+	"main": "webpack.config.js",
+	"scripts": {
+		"start": "wp-scripts start",
+		"start:hot": "wp-scripts start --hot",
+		"format": "wp-scripts format",
+		"minify": "wp-scripts build",
+		"compress": "webpack --config dev-tools/webpack.compress.js",
+		"git-compress": "webpack --config dev-tools/webpack.compress.git.js",
+		"fixtextdomain": "grunt fixtextdomain --gruntfile dev-tools/Gruntfile.js",
+		"grunt-build": "grunt build --gruntfile dev-tools/Gruntfile.js",
+		"grunt-finish": "grunt screen:finish --gruntfile dev-tools/Gruntfile.js",
+		"build": "composer build && npm run minify && npm run grunt-build && npm run compress && npm run grunt-finish"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wpmvc/wpmvc.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/wpmvc/wpmvc/issues"
+	},
+	"homepage": "https://github.com/wpmvc/wpmvc#readme",
+	"devDependencies": {
+		"@wordpress/scripts": "^26.3.0",
+		"filemanager-webpack-plugin": "^8.0.0",
+		"grunt": "^1.6.1",
+		"grunt-checktextdomain": "^1.0.1",
+		"grunt-contrib-clean": "^2.0.1",
+		"grunt-wp-i18n": "^1.0.3",
+		"load-grunt-tasks": "^5.1.0"
+	}
+}
