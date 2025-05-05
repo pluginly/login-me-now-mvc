@@ -6,6 +6,7 @@ use LoginMeNow\App\Contracts\LoginProviderBase;
 use LoginMeNow\App\DTO\ProviderListenersDTO;
 use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
 use LoginMeNow\App\LoginProviders\BrowserToken\BrowserToken;
+use LoginMeNow\App\LoginProviders\MagicLink\MagicLink;
 use LoginMeNow\WpMVC\Contracts\Provider;
 
 final class LoginServiceProvider implements Provider {
@@ -30,7 +31,6 @@ final class LoginServiceProvider implements Provider {
 	public function register_listeners( ProviderListenersDTO $listeners ) {
 		$this->listeners[] = $listeners;
 
-		// $get / rest or else;
 	}
 
 	public function boot() {
@@ -52,6 +52,7 @@ final class LoginServiceProvider implements Provider {
 			'login_me_now_login_providers',
 			[
 				BrowserToken::class,
+				MagicLink::class,
 			]
 		);
 	}
