@@ -57,20 +57,6 @@ final class LoginServiceProvider implements Provider {
 	}
 
 	public function register_fields( array $fields ): array {
-		$fields[] = [
-			'title'         => __( 'Enable Browser Extension', 'login-me-now' ),
-			'description'   => __( "If frequent logins to the dashboard are necessary throughout the day, the browser extension comes in handy.It just takes 1 click to login to dashboard.", 'login-me-now' ),
-			'id'            => 'browser_extension',
-			'previous_data' => false,
-			'type'          => 'switch',
-			'tab'           => 'delegate-access',
-		];
-
-		$fields[] = [
-			'type' => 'separator',
-			'tab'  => 'delegate-access',
-		];
-
-		return $fields;
+		return array_merge( $this->settings, $fields );
 	}
 }

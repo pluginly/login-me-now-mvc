@@ -57,17 +57,7 @@ class SettingsRepository {
 	}
 
 	public function get_fields(): array {
-		$fields[] = [
-			'title'         => 'Site Title',
-			'description'   => 'Enter the title of your site.',
-			'id'            => 'site_title',
-			'placeholder'   => 'e.g., My Awesome Website',
-			'previous_data' => self::get( 'site_title', 'hello world' ),
-			'type'          => 'text',
-			'tab'           => 'wp-native-login',
-		];
-
-		return apply_filters( 'login_me_now_settings_fields', $fields );
+		return apply_filters( 'login_me_now_settings_fields', [] );
 	}
 
 	public static function save( string $key, $value ) {
