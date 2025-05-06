@@ -5,8 +5,7 @@ namespace LoginMeNow\App\Http\MagicLinkController;
 use LoginMeNow\App\DTO\LoginDTO;
 use LoginMeNow\App\Repositories\AccountRepository;
 use LoginMeNow\App\Repositories\MagicLinkRepository;
-
-
+use LoginMeNow\App\Helpers\Helper;
 
 class MagicLinkController extends Controller {
 	public function send_magic_link() {
