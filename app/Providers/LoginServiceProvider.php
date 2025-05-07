@@ -7,6 +7,7 @@ use LoginMeNow\App\DTO\ProviderListenersDTO;
 use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
 use LoginMeNow\App\LoginProviders\BrowserToken\BrowserToken;
 use LoginMeNow\App\LoginProviders\MagicLink\MagicLink;
+use LoginMeNow\App\LoginProviders\Google\Google;
 use LoginMeNow\WpMVC\Contracts\Provider;
 
 final class LoginServiceProvider implements Provider {
@@ -55,6 +56,8 @@ final class LoginServiceProvider implements Provider {
 				BrowserTokenServiceProvider::class,
 				LinkServiceProvider::class,
 				GoogleServiceProvider::class,
+				BrowserToken::class,
+				Google::class,
 			]
 		);
 	}

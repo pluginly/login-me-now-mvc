@@ -1,18 +1,14 @@
 <?php
-/**
- * @author  Pluginly
- * @since  	1.6.0
- * @version 1.6.0
- */
 
-namespace LoginMeNow\Logins\GoogleLogin;
+namespace LoginMeNow\App\Http\Controllers;
 
 use Google_Client;
+use LoginMeNow\App\Repositories\GoogleRepository;
+use LoginMeNow\App\Repositories\SettingsRepository;
 use LoginMeNow\Common\Singleton;
 use LoginMeNow\DTO\UserDataDTO;
-use LoginMeNow\Repositories\SettingsRepository;
 
-class Controller {
+class GoogleController {
 	use Singleton;
 
 	public function listen(): void {
@@ -66,7 +62,7 @@ class Controller {
 			->set_display_name( $data['name'] ?? '' )
 			->set_user_avatar_url( $data['picture'] ?? '' );
 
-		( new Repository )->auth( $userDataDTO );
+		( new GoogleRepository )->auth( $userDataDTO );
 	}
 
 	private function listen_onetap(): void {
@@ -124,6 +120,6 @@ class Controller {
 			->set_display_name( $data['name'] ?? '' )
 			->set_user_avatar_url( $data['picture'] ?? '' );
 
-		( new Repository )->auth( $userDataDTO );
+		( new GoogleRepository )->auth( $userDataDTO );
 	}
 }
