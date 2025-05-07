@@ -1,11 +1,6 @@
 <?php
-/**
- * @author  Pluginly
- * @since   1.4.0
- * @version 1.7.0
- */
 
-namespace LoginMeNow\Logins\FacebookLogin;
+namespace LoginMeNow\App\Providers;
 
 use LoginMeNow\Common\ModuleBase;
 use LoginMeNow\Repositories\SettingsRepository;
@@ -14,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FacebookLogin extends ModuleBase {
+class FacebookServiceProvider implements LoginProviderBase {
 	const DEFAULT_GRAPH_VERSION = 'v20.0';
 
 	public function setup(): void {

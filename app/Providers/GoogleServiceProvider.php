@@ -5,7 +5,7 @@
  * @version 1.6.0
  */
 
-namespace LoginMeNow\Logins\GoogleLogin;
+namespace LoginMeNow\App\Providers;
 
 use LoginMeNow\Common\ModuleBase;
 use LoginMeNow\Logins\GoogleLogin\Enqueuer;
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class GoogleLogin extends ModuleBase {
+class GoogleServiceProvider implements LoginProviderBase {
 
 	public function setup(): void {
 		( new Settings() );
