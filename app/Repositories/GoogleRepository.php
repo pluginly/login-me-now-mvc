@@ -1,17 +1,12 @@
 <?php
-/**
- * @author  Pluginly
- * @since  	1.6.0
- * @version 1.6.0
- */
 
-namespace LoginMeNow\Logins\GoogleLogin;
+namespace LoginMeNow\App\Repositories;
 
 use LoginMeNow\DTO\LoginDTO;
 use LoginMeNow\DTO\UserDataDTO;
 use LoginMeNow\Repositories\AccountRepository;
 
-class Repository {
+class GoogleRepository {
 
 	public function auth( UserDataDTO $userDataDTO ) {
 		$wp_user      = get_user_by( 'email', sanitize_email( $userDataDTO->get_user_email() ) );

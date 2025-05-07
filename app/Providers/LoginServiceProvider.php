@@ -6,6 +6,7 @@ use LoginMeNow\App\Contracts\LoginProviderBase;
 use LoginMeNow\App\DTO\ProviderListenersDTO;
 use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
 use LoginMeNow\App\LoginProviders\BrowserToken\BrowserToken;
+use LoginMeNow\App\LoginProviders\Google\Google;
 use LoginMeNow\WpMVC\Contracts\Provider;
 
 final class LoginServiceProvider implements Provider {
@@ -52,6 +53,7 @@ final class LoginServiceProvider implements Provider {
 			'login_me_now_login_providers',
 			[
 				BrowserToken::class,
+				Google::class,
 			]
 		);
 	}
