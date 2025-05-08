@@ -5,8 +5,6 @@ namespace LoginMeNow\App\Providers;
 use LoginMeNow\App\Contracts\LoginProviderBase;
 use LoginMeNow\App\DTO\ProviderListenersDTO;
 use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
-use LoginMeNow\App\LoginProviders\BrowserToken\BrowserToken;
-use LoginMeNow\App\LoginProviders\Google\Google;
 use LoginMeNow\WpMVC\Contracts\Provider;
 
 final class LoginServiceProvider implements Provider {
@@ -31,7 +29,6 @@ final class LoginServiceProvider implements Provider {
 	public function register_listeners( ProviderListenersDTO $listeners ) {
 		$this->listeners[] = $listeners;
 
-		// $get / rest or else;
 	}
 
 	public function boot() {
@@ -52,8 +49,12 @@ final class LoginServiceProvider implements Provider {
 		return apply_filters(
 			'login_me_now_login_providers',
 			[
-				BrowserToken::class,
-				Google::class,
+				MagicLinkServiceProvider::class,
+				BrowserTokenServiceProvider::class,
+				LinkServiceProvider::class,
+				GoogleServiceProvider::class,
+				BrowserTokenServiceProvider::class,
+				GoogleServiceProvider::class,
 			]
 		);
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace LoginMeNow\App\LoginProviders\Google;
+namespace LoginMeNow\App\Providers;
 
 use LoginMeNow\App\Contracts\LoginProviderBase;
 use LoginMeNow\App\DTO\LoginButtonDTO;
@@ -11,7 +11,7 @@ use LoginMeNow\App\Helpers\User;
 use LoginMeNow\App\Http\Controllers\GoogleController;
 use LoginMeNow\App\Repositories\SettingsRepository;
 
-class Google implements LoginProviderBase {
+class GoogleServiceProvider implements LoginProviderBase {
 
 	public function boot() {
 		add_filter( 'login_me_now_google_login_show_onetap', [$this, 'onetap'] );

@@ -1,6 +1,6 @@
 <?php
 
-namespace LoginMeNow\App\LoginProviders\BrowserToken;
+namespace LoginMeNow\App\Providers;
 
 use LoginMeNow\App\Contracts\LoginProviderBase;
 use LoginMeNow\App\DTO\LoginButtonDTO;
@@ -8,7 +8,7 @@ use LoginMeNow\App\DTO\ProviderListenersDTO;
 use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
 use LoginMeNow\App\DTO\ProviderUserDataDTO;
 
-class BrowserToken implements LoginProviderBase {
+class BrowserTokenServiceProvider implements LoginProviderBase {
 
 	/**
 	 * Unique Key of the Login Provider, like: email-magic-link

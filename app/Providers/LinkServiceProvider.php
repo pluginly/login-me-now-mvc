@@ -5,7 +5,7 @@
  * @version 1.6.0
  */
 
-namespace LoginMeNow\Logins\LinkLogin;
+ namespace LoginMeNow\App\Providers;
 
 use LoginMeNow\Common\LoginBase;
 use LoginMeNow\Common\Singleton;
@@ -19,7 +19,7 @@ use WP_User;
 /**
  * The Login Link Handling Class
  */
-class LinkLogin extends LoginBase {
+class LinkServiceProvider implements LoginProviderBase {
 	use Singleton;
 
 	private $token_key = 'lmn_token';

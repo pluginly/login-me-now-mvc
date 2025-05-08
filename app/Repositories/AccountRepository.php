@@ -2,9 +2,9 @@
 
 namespace LoginMeNow\App\Repositories;
 
-use LoginMeNow\DTO\LoginDTO;
-use LoginMeNow\DTO\UserDataDTO;
-use LoginMeNow\Utils\User;
+use LoginMeNow\App\DTO\LoginDTO;
+use LoginMeNow\App\Models\User;
+use LoginMeNow\App\DTO\UserDataDTO;
 use WP_Error;
 
 class AccountRepository {
@@ -13,7 +13,7 @@ class AccountRepository {
 	public string $redirect_uri;
 	public bool $new_user = false;
 
-	public function login( LoginDTO $dto, UserDataDTO $userDataDTO = null ) {
+	public function login( LoginDTO $dto, UserDataDTO $userDataDTO ) {
 		include ABSPATH . "wp-includes/pluggable.php";
 
 		do_action( "login_me_now_before_login", $dto, $userDataDTO );
