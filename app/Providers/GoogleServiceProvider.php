@@ -3,12 +3,12 @@
 namespace LoginMeNow\App\Providers;
 
 use LoginMeNow\App\Contracts\LoginProviderBase;
-use LoginMeNow\App\DTO\LoginButtonDTO;
 use LoginMeNow\App\DTO\ProviderListenersDTO;
 use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
 use LoginMeNow\App\DTO\ProviderUserDataDTO;
 use LoginMeNow\App\Helpers\User;
 use LoginMeNow\App\Http\Controllers\GoogleController;
+use LoginMeNow\App\Repositories\LoginProvidersRepository;
 use LoginMeNow\App\Repositories\SettingsRepository;
 
 class GoogleServiceProvider implements LoginProviderBase {
@@ -18,38 +18,25 @@ class GoogleServiceProvider implements LoginProviderBase {
 		add_filter( 'get_avatar_url', [$this, 'avatar'], 10, 3 );
 		add_action( "login_me_now_after_login", [$this, 'verified'], 10, 2 );
 		add_action( 'init', [GoogleController::class, 'listen'] );
+		add_action( 'init', [$this, 'shortcodes'] );
 	}
 
-	/**
-	 * Unique Key of the Login Provider, like: email_magic_link
-	 */
 	public static function get_key(): string {
 		return 'google_login';
 	}
 
-	/**
-	 * Name of the Login Provider, like: Email Magic Link
-	 */
 	public static function get_name(): string {
 		return 'Google';
 	}
 
-	/**
-	 * Login Button to be displayed on the login page
-	 */
-	public static function get_button(): LoginButtonDTO {
-		$dto = new LoginButtonDTO();
-		$dto->set_class( 'lmn-google' );
-		$dto->set_icon( 'fa-solid fa-google' );
-		$dto->set_label( 'Login with Google' );
-		$dto->set_modal_behavior( 'window' );
+	public static function get_button(): string {
+		ob_start();
+		include login_me_now_dir( 'resources/views/google/button.php' );
+		$html = ob_get_clean();
 
-		return $dto;
+		return $html;
 	}
 
-	/**
-	 * Settings Fields to be displayed on the settings page
-	 */
 	public function get_settings(): ProviderSettingsFieldsDTO {
 		$page_options  = [];
 		$roles_options = [];
@@ -236,16 +223,6 @@ class GoogleServiceProvider implements LoginProviderBase {
 	}
 
 	/**
-	 * Listener to authenticate the user
-	 */
-	public function listener(): ProviderListenersDTO {
-		$dto = new ProviderListenersDTO();
-		// $dto->is( 'lmn-browser-extension' );
-
-		return $dto;
-	}
-
-	/**
 	 * Get user information from the provider
 	 */
 	public function user_data(): ProviderUserDataDTO {
@@ -323,5 +300,11 @@ class GoogleServiceProvider implements LoginProviderBase {
 		}
 
 		return $url;
+	}
+
+	public function shortcodes(): void {
+		add_shortcode( 'login_me_now_google_button', function () {
+			return ( new LoginProvidersRepository() )->get_provider_buttons_html( true, ['google'], 'none' );
+		} );
 	}
 }

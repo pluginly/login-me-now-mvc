@@ -1,13 +1,5 @@
-<?php
-/**
- * @author  Pluginly
- * @since   1.5.0
- * @version 1.6.0
- */
-?>
-
 <div class="lmn_google_login">
-    <a data-action="lmn-connect" href="<?php echo \LoginMeNow\App\LoginProviders\Google\Google::create_auth_url(); ?>" class="lmn_btn lmn_google_login_button">
+    <a data-action="lmn-connect" href="<?php echo \LoginMeNow\App\Repositories\GoogleRepository::create_auth_url(); ?>" class="lmn_btn lmn_google_login_button">
 		<span class="svg-bg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.5 544.3" height="20" width="20">
 				<path fill="#4285F4" d="M533.5 278.1c0-18.5-1.5-37.1-4.6-55.3H272.1v104.8h145.4c-6.1 33.8-26.9 62.5-57.2 81.6v68.1h92.5c54.2-50.1 85.2-123.5 85.2-199.2z"/>
 				<path fill="#34A853" d="M272.1 544.3c77.4 0 142.3-25.3 189.9-68.8l-92.5-68.1c-25.9 17.5-58.9 27-97.4 27-74.7 0-138.1-50.2-160.7-118.1H6.2v73.7c47.8 94.7 147.6 160.3 265.9 160.3z"/>

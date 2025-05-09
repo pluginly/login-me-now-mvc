@@ -3,8 +3,7 @@
 namespace LoginMeNow\App\Providers;
 
 use LoginMeNow\App\Repositories\LoginProvidersRepository;
-use LoginMeNow\Repositories\LoginProviderRepository;
-use LoginMeNow\Repositories\SettingsRepository;
+use LoginMeNow\App\Repositories\SettingsRepository;
 use LoginMeNow\WpMVC\Contracts\Provider;
 
 class LoginFormServiceProvider implements Provider {
@@ -22,6 +21,8 @@ class LoginFormServiceProvider implements Provider {
 
 		// Popup redirect after auth
 		add_action( 'login_me_now_popup_authenticate_redirection', [$this, 'handle_popup_redirect'] );
+
+		add_filter( 'login_me_now_settings_fields', [$this, 'add_settings_fields'] );
 	}
 
 	public function enqueue_login_script() {
@@ -104,5 +105,43 @@ class LoginFormServiceProvider implements Provider {
 
 	public function is_enabled(): bool {
 		return (bool) SettingsRepository::get( 'wp_native_login_enable', true );
+	}
+
+	public function add_settings_fields( $fields ): array {
+		$fields[] = [
+			'title'         => 'Enable Login Me Now',
+			'description'   => 'Use login features for WordPress native login page.',
+			'key'           => 'wp_native_login_enable',
+			'previous_data' => SettingsRepository::get( 'wp_native_login_enable', true ),
+			'type'          => 'switch',
+			'tab'           => 'wp-native-login',
+		];
+
+		$fields[] = [
+			'type' => 'separator',
+			'tab'  => 'wp-native-login',
+		];
+
+		$fields[] = [
+			'title'         => __( 'Select Login Providers', 'login-me-now' ),
+			'description'   => __( "Choose what login methods you would like to show.", 'login-me-now' ),
+			'key'           => 'wp_native_login_providers',
+			'previous_data' => SettingsRepository::get( 'wp_native_login_providers', 'email_magic_link' ),
+			'type'          => 'multi-select',
+			'options'       => LoginProvidersRepository::get_available_providers_list(),
+			'tab'           => 'wp-native-login',
+			'if_has'        => ['wp_native_login_enable'],
+		];
+
+		$fields[] = [
+			'title'         => 'Enter your license key',
+			'description'   => "An active license key is needed to unlock all the pro features and receive automatic plugin updates. Don't have a license key? <a href='https://pluginly.com/login-me-now-pro/' target='_blank'>Get it here</a>",
+			'key'           => 'lmn_pro_lic',
+			'previous_data' => SettingsRepository::get( 'lmn_pro_lic', '' ),
+			'type'          => 'text',
+			'tab'           => 'license',
+		];
+
+		return $fields;
 	}
 }

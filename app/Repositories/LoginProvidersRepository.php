@@ -2,37 +2,59 @@
 
 namespace LoginMeNow\App\Repositories;
 
-use LoginMeNow\Logins\FacebookLogin\Button as FacebookButton;
-use LoginMeNow\Logins\GoogleLogin\Button as GoogleButton;
-use LoginMeNow\Logins\MagicLinkLogin\Button as MagicLinkLoginButton;
-
 class LoginProvidersRepository {
 
 	/**
-	 * Return the providers array as-is.
+	 * Return the providers list.
 	 */
-	public function get_providers( array $providers ): array {
+	public static function get_available_providers_list(): array {
+		$_providers = self::get_available_providers();
+		$providers  = [];
+
+		foreach ( $_providers as $provider ) {
+			$providers[] = [
+				'value' => $provider::get_key(),
+				'label' => $provider::get_name(),
+			];
+		}
+
 		return $providers;
+	}
+
+	/**
+	 * Return the providers class list as an associative array: [ key => class ]
+	 */
+	public static function get_available_providers(): array {
+		$providers = apply_filters( 'login_me_now_available_providers', [
+			\LoginMeNow\App\Providers\GoogleServiceProvider::class,
+			// \LoginMeNow\App\Providers\FacebookServiceProvider::class,
+			// \LoginMeNow\App\Providers\MagicLinkServiceProvider::class,
+		] );
+
+		$mapped = [];
+		foreach ( $providers as $provider_class ) {
+			if ( method_exists( $provider_class, 'get_key' ) ) {
+				$mapped[$provider_class::get_key()] = $provider_class;
+			}
+		}
+
+		return $mapped;
 	}
 
 	/**
 	 * Return only valid and active login provider buttons.
 	 */
 	public function get_provider_buttons( array $login_providers ): array {
-		$available_providers = [
-			'google'           => GoogleButton::class,
-			'facebook'         => FacebookButton::class,
-			'email_magic_link' => MagicLinkLoginButton::class,
-		];
+		$available = self::get_available_providers();
+		$buttons   = [];
 
-		$buttons = [];
+		foreach ( $login_providers as $key ) {
+			if ( isset( $available[$key] ) ) {
+				$provider_class    = $available[$key];
+				$provider_instance = new $provider_class();
 
-		foreach ( $login_providers as $provider_key ) {
-			if ( isset( $available_providers[$provider_key] ) ) {
-				$provider_instance = new $available_providers[$provider_key]();
-
-				if ( method_exists( $provider_instance, 'get_button' ) && $provider_instance->get_button() ) {
-					$buttons[$provider_key] = $provider_instance;
+				if ( method_exists( $provider_class, 'get_button' ) && $provider_class::get_button() ) {
+					$buttons[$key] = $provider_instance;
 				}
 			}
 		}
@@ -47,7 +69,9 @@ class LoginProvidersRepository {
 		$buttons = $this->get_provider_buttons( $login_providers );
 
 		ob_start();
-		include LOGIN_ME_NOW_TEMPLATE_PATH . '/login-form.php';
+		/** @psalm-suppress MissingFile */// phpcs:ignore Generic.Commenting.DocComment.MissingShort
+		include_once login_me_now_dir( 'resources/views/login-form.php' );
+		/** @psalm-suppress MissingFile */// phpcs:ignore Generic.Commenting.DocComment.MissingShort
 		$html = ob_get_clean();
 
 		return $return ? $html : print( $html );

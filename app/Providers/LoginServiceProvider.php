@@ -37,7 +37,6 @@ final class LoginServiceProvider implements Provider {
 
 			if ( $provider instanceof LoginProviderBase ) {
 				$this->register( $provider );
-
 				$provider->boot();
 			}
 		}
