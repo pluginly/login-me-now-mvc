@@ -1,16 +1,10 @@
 <?php
-/**
- * @author  Pluginly
- * @since   1.4
- * @version 1.9
- */
-
-if ( ! $buttons || 0 === count( $buttons ) ) {
+if ( ! $providers || 0 === count( $providers ) ) {
 	return;
 }
 
-wp_enqueue_style( 'login-me-now-social-login-main' );
-wp_enqueue_script( 'login-me-now-social-login-main' );
+wp_enqueue_style( 'login-me-now-main' );
+wp_enqueue_script( 'login-me-now-main' );
 ?>
 
 <div id="wp-login-login-me-now-buttons">
@@ -21,8 +15,8 @@ wp_enqueue_script( 'login-me-now-social-login-main' );
 		</div>
 	<?php endif; ?>
 
-	<?php foreach ( $buttons as $button ): ?>
-		<?php echo $button->get_button(); ?>
+	<?php foreach ( $providers as $provider ): ?>
+		<?php echo $provider::get_button(); ?>
 	<?php endforeach; ?>
 
 	<?php if ( 'after' === $display_position ): ?>

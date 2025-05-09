@@ -3,7 +3,6 @@
 namespace LoginMeNow\App\Providers;
 
 use LoginMeNow\App\Contracts\LoginProviderBase;
-use LoginMeNow\App\DTO\ProviderListenersDTO;
 use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
 use LoginMeNow\App\DTO\ProviderUserDataDTO;
 use LoginMeNow\App\Helpers\User;
@@ -303,8 +302,10 @@ class GoogleServiceProvider implements LoginProviderBase {
 	}
 
 	public function shortcodes(): void {
-		add_shortcode( 'login_me_now_google_button', function () {
-			return ( new LoginProvidersRepository() )->get_provider_buttons_html( true, ['google'], 'none' );
-		} );
+		add_shortcode( 'login_me_now_google_button', [$this, 'login_me_now_google_button'] );
+	}
+
+	public function login_me_now_google_button() {
+		return ( new LoginProvidersRepository() )->get_provider_buttons_html( true, ['google'], 'none' );
 	}
 }

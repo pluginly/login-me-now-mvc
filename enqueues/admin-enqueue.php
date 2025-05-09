@@ -5,10 +5,13 @@ use LoginMeNow\WpMVC\Enqueue\Enqueue;
 
 defined( 'ABSPATH' ) || exit;
 
+include_once __DIR__ . '/register.php';
+
 $config  = App::$config->get( 'base-config' );
 $icon    = apply_filters( 'menu_icon', 'dashicons-admin-generic' );
 $pro_url = $config['pro_upgrade_url'];
 $slug    = $config['menu_slug'];
+
 
 Enqueue::script( 'login-me-now-admin-main', 'build/dashboard-app', ['react', 'react-dom', 'wp-api-fetch', 'wp-i18n'] );
 Enqueue::style( 'login-me-now-admin-main', 'build/dashboard-app' );

@@ -46,27 +46,26 @@ class LoginProvidersRepository {
 	 */
 	public function get_provider_buttons( array $login_providers ): array {
 		$available = self::get_available_providers();
-		$buttons   = [];
+		$providers = [];
 
 		foreach ( $login_providers as $key ) {
 			if ( isset( $available[$key] ) ) {
-				$provider_class    = $available[$key];
-				$provider_instance = new $provider_class();
+				$provider_class = $available[$key];
 
 				if ( method_exists( $provider_class, 'get_button' ) && $provider_class::get_button() ) {
-					$buttons[$key] = $provider_instance;
+					$providers[$key] = $provider_class;
 				}
 			}
 		}
 
-		return $buttons;
+		return $providers;
 	}
 
 	/**
 	 * Render or return the HTML for login provider buttons.
 	 */
 	public function get_provider_buttons_html( bool $return = false, array $login_providers, string $display_position = 'after' ) {
-		$buttons = $this->get_provider_buttons( $login_providers );
+		$providers = $this->get_provider_buttons( $login_providers );
 
 		ob_start();
 		/** @psalm-suppress MissingFile */// phpcs:ignore Generic.Commenting.DocComment.MissingShort
