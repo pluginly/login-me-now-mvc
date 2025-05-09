@@ -77,7 +77,7 @@ class GoogleServiceProvider implements LoginProviderBase {
 			[
 				[
 					'title'   => __( 'Enable Google Login', 'login-me-now' ),
-					'id'      => 'google_login',
+					'key'     => 'google_login',
 					'default' => false,
 					'type'    => 'switch',
 					'tab'     => 'google',
@@ -90,7 +90,7 @@ class GoogleServiceProvider implements LoginProviderBase {
 				[
 					'title'       => __( 'Client ID', 'login-me-now' ),
 					'description' => __( 'Enter your google Client ID here, <a target="__blank" href="https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid">get Client ID</a>', 'login-me-now' ),
-					'id'          => 'google_client_id',
+					'key'         => 'google_client_id',
 					'placeholder' => 'ex: **********--**********.apps.googleusercontent.com',
 					'default'     => '',
 					'type'        => 'text',
@@ -104,7 +104,7 @@ class GoogleServiceProvider implements LoginProviderBase {
 				], [
 					'title'       => __( 'Client Secret', 'login-me-now' ),
 					'description' => __( "Enter your Client Secret key here.", 'login-me-now' ),
-					'id'          => 'google_client_secret',
+					'key'         => 'google_client_secret',
 					'placeholder' => 'e.g., ******-****-******',
 					'default'     => '',
 					'type'        => 'text',
@@ -117,7 +117,7 @@ class GoogleServiceProvider implements LoginProviderBase {
 				], [
 					'title'       => __( 'OneTap', 'login-me-now' ),
 					'description' => __( "Enable google onetap login", 'login-me-now' ),
-					'id'          => 'google_onetap',
+					'key'         => 'google_onetap',
 					'default'     => false,
 					'type'        => 'switch',
 					'tab'         => 'google',
@@ -129,7 +129,7 @@ class GoogleServiceProvider implements LoginProviderBase {
 				], [
 					'title'       => __( 'Select Location', 'login-me-now' ),
 					'description' => __( "Choose a location where you want to show the onetap", 'login-me-now' ),
-					'id'          => 'google_onetap_display_location',
+					'key'         => 'google_onetap_display_location',
 					'default'     => [],
 					'type'        => 'select',
 					'options'     => [
@@ -153,7 +153,7 @@ class GoogleServiceProvider implements LoginProviderBase {
 				[
 					'title'       => __( 'Select Page', 'login-me-now' ),
 					'description' => __( "Select specific pages where you want to show the onetap", 'login-me-now' ),
-					'id'          => 'google_pro_selected_pages',
+					'key'         => 'google_pro_selected_pages',
 					'default'     => [],
 					'type'        => 'multi-select',
 					'options'     => $page_options,
@@ -166,7 +166,7 @@ class GoogleServiceProvider implements LoginProviderBase {
 				], [
 					'title'       => __( 'One Tap Prompt Behavior', 'login-me-now' ),
 					'description' => __( 'Enable automatic closing on outside clicks.', 'login-me-now' ),
-					'id'          => 'google_cancel_on_tap_outside',
+					'key'         => 'google_cancel_on_tap_outside',
 					'default'     => false,
 					'tab'         => 'google',
 					'type'        => 'switch',
@@ -178,7 +178,7 @@ class GoogleServiceProvider implements LoginProviderBase {
 				], [
 					'title'       => __( 'User Role Permission Level', 'login-me-now' ),
 					'description' => __( "Select a permission option for users.", 'login-me-now' ),
-					'id'          => 'google_pro_default_user_role',
+					'key'         => 'google_pro_default_user_role',
 					'default'     => [],
 					'type'        => 'select',
 					'options'     => $roles_options,
@@ -193,7 +193,7 @@ class GoogleServiceProvider implements LoginProviderBase {
 				], [
 					'title'       => __( 'Update Existing User Name', 'login-me-now' ),
 					'description' => __( "Automatically retrieve the existing user first, last, nick & display name from google account upon login using gmail ", 'login-me-now' ),
-					'id'          => 'google_update_existing_user_data',
+					'key'         => 'google_update_existing_user_data',
 					'default'     => false,
 					'type'        => 'switch',
 					'tab'         => 'google',
@@ -207,7 +207,7 @@ class GoogleServiceProvider implements LoginProviderBase {
 				], [
 					'title'       => __( 'Add User Profile Picture', 'login-me-now' ),
 					'description' => __( "Automatically retrieve the profile picture as avatar from users' google account upon login or register using gmail", 'login-me-now' ),
-					'id'          => 'google_pro_user_avatar',
+					'key'         => 'google_pro_user_avatar',
 					'default'     => false,
 					'type'        => 'switch',
 					'tab'         => 'google',
@@ -222,7 +222,7 @@ class GoogleServiceProvider implements LoginProviderBase {
 					'title'       => __( 'Redirection URL', 'login-me-now' ),
 					'description' => "Redirect after successful login and registration",
 					'placeholder' => 'e.g., https://yourwebsite.com/dashboard',
-					'id'          => 'google_pro_redirect_url',
+					'key'         => 'google_pro_redirect_url',
 					'default'     => '',
 					'type'        => 'text',
 					'tab'         => 'google',

@@ -49,12 +49,12 @@ final class LoginServiceProvider implements Provider {
 		return apply_filters(
 			'login_me_now_login_providers',
 			[
-				MagicLinkServiceProvider::class,
-				BrowserTokenServiceProvider::class,
-				LinkServiceProvider::class,
+				// MagicLinkServiceProvider::class,
+				// BrowserTokenServiceProvider::class,
+				// LinkServiceProvider::class,
 				GoogleServiceProvider::class,
-				BrowserTokenServiceProvider::class,
-				GoogleServiceProvider::class,
+				// BrowserTokenServiceProvider::class,
+				// GoogleServiceProvider::class,
 			]
 		);
 	}

@@ -64557,7 +64557,7 @@ function Settings() {
   const [fields, setFields] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
   const [form] = antd__WEBPACK_IMPORTED_MODULE_6__["default"].useForm();
-  const [activeTab, setActiveTab] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('wp-native-login');
+  const [activeTab, setActiveTab] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('google');
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     setLoading(true);
     (0,_helpers_postData__WEBPACK_IMPORTED_MODULE_2__["default"])('login-me-now/admin/settings/fields').then(data => {
@@ -64565,7 +64565,7 @@ function Settings() {
       setFields(fields);
       const formData = fields.reduce((acc, field) => {
         var _field$previous_data;
-        acc[field.id] = (_field$previous_data = field.previous_data) !== null && _field$previous_data !== void 0 ? _field$previous_data : field.type === 'checkbox' || field.type === 'switch' ? false : '';
+        acc[field.key] = (_field$previous_data = field.previous_data) !== null && _field$previous_data !== void 0 ? _field$previous_data : field.type === 'checkbox' || field.type === 'switch' ? false : '';
         return acc;
       }, {});
       form.setFieldsValue(formData);
@@ -64696,7 +64696,7 @@ function Settings() {
       }
     }
     const commonProps = {
-      name: field.id,
+      name: field.key,
       rules: [{
         required: field.required,
         message: `${field.title} is required.`
@@ -64721,7 +64721,7 @@ function Settings() {
             __html: field.description
           }
         }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
-          key: field.id,
+          key: field.key,
           ...commonProps,
           className: field.class
         }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -64743,7 +64743,7 @@ function Settings() {
             __html: field.description
           }
         }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
-          key: field.id,
+          key: field.key,
           ...commonProps,
           tooltip: field.tooltip,
           className: field.class
@@ -64767,7 +64767,7 @@ function Settings() {
             __html: field.description
           }
         }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
-          key: field.id,
+          key: field.key,
           ...commonProps,
           tooltip: field.tooltip,
           className: field.class
@@ -64790,7 +64790,7 @@ function Settings() {
             __html: field.description
           }
         }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
-          key: field.id,
+          key: field.key,
           ...commonProps,
           tooltip: field.tooltip,
           className: field.class
@@ -64817,7 +64817,7 @@ function Settings() {
           }
         }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
           disabled: field.is_pro,
-          key: field.id,
+          key: field.key,
           ...commonProps,
           tooltip: field.tooltip,
           className: field.class
@@ -64827,8 +64827,8 @@ function Settings() {
         })));
       case 'checkbox':
         return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
-          key: field.id,
-          name: field.id,
+          key: field.key,
+          name: field.key,
           valuePropName: "checked",
           className: "flex items-center space-x-2",
           tooltip: field.tooltip
@@ -64849,8 +64849,8 @@ function Settings() {
             __html: field.description
           }
         })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
-          key: field.id,
-          name: field.id,
+          key: field.key,
+          name: field.key,
           valuePropName: "checked",
           initialValue: false // Ensure there's an initial value
           ,
@@ -64871,7 +64871,7 @@ function Settings() {
         }, field.title), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
           className: "text-sm mb-2 text-gray-500"
         }, field.description), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
-          key: field.id,
+          key: field.key,
           ...commonProps,
           tooltip: field.tooltip
         }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_13__["default"], {
@@ -64890,7 +64890,7 @@ function Settings() {
         }, field.title), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
           className: "text-sm mb-2 text-gray-500"
         }, field.description), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
-          key: field.id,
+          key: field.key,
           ...commonProps,
           tooltip: field.tooltip
         }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_13__["default"], {

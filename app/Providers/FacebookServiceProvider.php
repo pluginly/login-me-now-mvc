@@ -15,9 +15,11 @@ class FacebookServiceProvider implements LoginProviderBase {
 	public function boot() {
 
 	}
+
 	public static function get_key():string {
 
 	}
+	
 	public static function get_button() {
 
 	}
@@ -27,7 +29,7 @@ class FacebookServiceProvider implements LoginProviderBase {
 			[
 				[
 					'title'         => __( 'Enable Facebook Login', 'login-me-now' ),
-					'id'            => 'facebook_login',
+					'key'            => 'facebook_login',
 					'default' 		=> false,
 					'type'          => 'switch',
 					'tab'           => 'facebook',
@@ -41,7 +43,7 @@ class FacebookServiceProvider implements LoginProviderBase {
 					'title'         => __( 'App ID', 'login-me-now' ),
 					'description'   => __( 'Enter your Facebook App ID, get <a target="__blank" href="https://developers.facebook.com/apps/">Facebook App ID</a>', 'login-me-now' ),
 					'placeholder'   => '14343****34343',
-					'id'            => 'facebook_app_id',
+					'key'            => 'facebook_app_id',
 					'default' 		=> '',
 					'type'          => 'text',
 					'tab'           => 'facebook',
@@ -56,7 +58,7 @@ class FacebookServiceProvider implements LoginProviderBase {
 					'title'         => __( 'App Secret', 'login-me-now' ),
 					'description'   => __( 'Enter your Facebook App Secret, get <a target="__blank" href="https://developers.facebook.com/apps/">Facebook App Secret</a>', 'login-me-now' ),
 					'placeholder'   => '2ae0c**********e06',
-					'id'            => 'facebook_app_secret',
+					'key'            => 'facebook_app_secret',
 					'default' 		=> '',
 					'type'          => 'text',
 					'tab'           => 'facebook',
@@ -70,7 +72,7 @@ class FacebookServiceProvider implements LoginProviderBase {
 				[
 					'title'         => __( 'User Role Permission Level', 'login-me-now' ),
 					'description'   => __( 'Select the role that will be assigned to new users who sign up', 'login-me-now' ),
-					'id'            => 'facebook_pro_default_user_role',
+					'key'            => 'facebook_pro_default_user_role',
 					'default' 		=> false,
 					'type'          => 'select',
 					'options'       => $roles_options,
@@ -86,7 +88,7 @@ class FacebookServiceProvider implements LoginProviderBase {
 				[
 					'title'         => __( 'Update Existing User Name', 'login-me-now' ),
 					'description'   => __( 'Automatically retrieve the existing user first, last, nick & display name from facebook account upon login using facebook', 'login-me-now' ),
-					'id'            => 'facebook_update_existing_user_data',
+					'key'            => 'facebook_update_existing_user_data',
 					'default' 		=> false,
 					'type'          => 'switch',
 					'tab'           => 'facebook',
@@ -102,7 +104,7 @@ class FacebookServiceProvider implements LoginProviderBase {
 					'title'         => __( 'Redirection URL', 'login-me-now' ),
 					'description'   => "Redirect after successful login and registration",
 					'placeholder'   => 'e.g., https://yourwebsite.com/dashboard',
-					'id'            => 'facebook_pro_redirect_url',
+					'key'            => 'facebook_pro_redirect_url',
 					'default' 		=> '',
 					'type'          => 'text',
 					'tab'           => 'facebook',

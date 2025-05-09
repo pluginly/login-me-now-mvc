@@ -57,7 +57,19 @@ class SettingsRepository {
 	}
 
 	public function get_fields(): array {
-		return apply_filters( 'login_me_now_settings_fields', [] );
+		$fields = apply_filters( 'login_me_now_settings_fields', [] );
+		$values = self::all();
+
+		foreach ( $fields as $index => $field ) {
+			$key = $field['id'] ?? '';
+			if ( isset( $values[$key] ) ) {
+				$fields[$index]['previous_data'] = $values[$key];
+			} else {
+				$fields[$index]['previous_data'] = $fields[$index]['default'] ?? '';
+			}
+		}
+
+		return $fields;
 	}
 
 	public static function save( string $key, $value ) {
