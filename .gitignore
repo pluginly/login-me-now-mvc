@@ -16,3 +16,4 @@ yarn.lock
 composer.lock
 dist
 node_modules
+__build

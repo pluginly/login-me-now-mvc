@@ -11,7 +11,7 @@ use LoginMeNow\WpMVC\App;
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Tested up to:      6.8
- * Author:            WpMVC
+ * Author:            Pluginly
  * Author URI:        http://github.com/wpmvc
  * License:           GPL v3 or later
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html

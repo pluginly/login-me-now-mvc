@@ -26,16 +26,17 @@ class SettingsRepository {
 		$defaults = apply_filters(
 			'login_me_now_dashboard_rest_options',
 			[
-				'logs'            => true,
+				'logs'              => true,
 
-				'activity_logs'   => false,
-				'social_login'    => true,
-				'temporary_login' => true,
+				'activity_logs'     => false,
+				'social_login'      => true,
+				'temporary_login'   => true,
+				'browser_extension' => true,
 
-				'user_switching'  => true,
+				'user_switching'    => true,
 
-				'get_user_roles'  => login_me_now_get_user_roles(),
-				'get_pages'       => login_me_now_get_pages(),
+				'get_user_roles'    => login_me_now_get_user_roles(),
+				'get_pages'         => login_me_now_get_pages(),
 			]
 		);
 
@@ -61,7 +62,7 @@ class SettingsRepository {
 		$values = self::all();
 
 		foreach ( $fields as $index => $field ) {
-			$key = $field['id'] ?? '';
+			$key = $field['key'] ?? '';
 			if ( isset( $values[$key] ) ) {
 				$fields[$index]['previous_data'] = $values[$key];
 			} else {
