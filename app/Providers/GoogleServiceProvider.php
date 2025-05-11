@@ -7,6 +7,7 @@ use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
 use LoginMeNow\App\DTO\ProviderUserDataDTO;
 use LoginMeNow\App\Helpers\User;
 use LoginMeNow\App\Http\Controllers\GoogleController;
+use LoginMeNow\App\Repositories\GoogleRepository;
 use LoginMeNow\App\Repositories\LoginProvidersRepository;
 use LoginMeNow\App\Repositories\SettingsRepository;
 
@@ -29,11 +30,7 @@ class GoogleServiceProvider implements LoginProviderBase {
 	}
 
 	public static function get_button(): string {
-		ob_start();
-		include login_me_now_dir( 'resources/views/google/button.php' );
-		$html = ob_get_clean();
-
-		return $html;
+		return GoogleRepository::get_button();
 	}
 
 	public function get_settings(): ProviderSettingsFieldsDTO {

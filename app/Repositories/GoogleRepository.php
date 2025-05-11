@@ -58,7 +58,7 @@ class GoogleRepository {
 
 		ob_start();
 		/** @psalm-suppress MissingFile */// phpcs:ignore Generic.Commenting.DocComment.MissingShort
-		include_once login_me_now_dir( 'resources/views/google/button.php' );
+		include login_me_now_dir( 'resources/views/google/button.php' );
 		/** @psalm-suppress MissingFile */// phpcs:ignore Generic.Commenting.DocComment.MissingShort
 		$html = ob_get_clean();
 
