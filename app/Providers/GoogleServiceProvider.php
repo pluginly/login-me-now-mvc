@@ -17,7 +17,7 @@ class GoogleServiceProvider implements LoginProviderBase {
 		add_filter( 'get_avatar_url', [$this, 'avatar'], 10, 3 );
 		add_action( "login_me_now_after_login", [$this, 'verified'], 10, 2 );
 		add_action( 'init', [GoogleController::class, 'listen'] );
-		add_action( 'init', [$this, 'shortcodes'] );
+		add_shortcode( 'login_me_now_google_button', [$this, 'shortcode_button'] );
 	}
 
 	public static function get_key(): string {
@@ -301,11 +301,12 @@ class GoogleServiceProvider implements LoginProviderBase {
 		return $url;
 	}
 
-	public function shortcodes(): void {
-		add_shortcode( 'login_me_now_google_button', [$this, 'login_me_now_google_button'] );
-	}
-
-	public function login_me_now_google_button() {
-		return ( new LoginProvidersRepository() )->get_provider_buttons_html( true, ['google'], 'none' );
+	public function shortcode_button() {
+		return ( new LoginProvidersRepository() )
+			->get_provider_buttons_html(
+				true,
+				[self::get_key()],
+				'none'
+			);
 	}
 }

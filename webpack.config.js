@@ -6,7 +6,9 @@ const devHost = 'wpmvc.test';
 module.exports = {
 	...defaultConfig,
 	entry: {
-		'dashboard-app': './resources/js/dashboard/DashboardApp.js',
+		'js/dashboard-app': './resources/js/dashboard/DashboardApp.js',
+		'js/main': './resources/js/main.js',
+		'css/main': './resources/css/main.css',
 	},
 	resolve: {
 		alias: {

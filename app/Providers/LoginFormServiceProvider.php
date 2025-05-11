@@ -10,8 +10,9 @@ class LoginFormServiceProvider implements Provider {
 
 	public function boot() {
 		// Load scripts and styles
+		add_action( 'wp_enqueue_scripts', [$this, 'enqueue_scripts'], 15 );
 		add_action( 'login_footer', [$this, 'enqueue_login_script'], 50 );
-		add_action( 'login_enqueue_scripts', [$this, 'login_enqueue_scripts'] );
+		add_action( 'login_enqueue_scripts', [$this, 'enqueue_scripts'] );
 
 		// Display login buttons on login/register forms
 		add_action( 'login_form', [$this, 'render_login_buttons'] );
@@ -146,9 +147,9 @@ class LoginFormServiceProvider implements Provider {
 		return $fields;
 	}
 
-	public function login_enqueue_scripts() {
+	public function enqueue_scripts() {
 		wp_register_script( 'login-me-now-google-api', '//apis.google.com/js/api:client.js' );
-		wp_register_script( 'login-me-now-main', login_me_now_url( 'assets/public/main.js' ) );
-		wp_register_style( 'login-me-now-main', login_me_now_url( 'assets/public/main.css' ) );
+		wp_register_script( 'login-me-now-main', login_me_now_url( 'assets/build/js/main.js' ) );
+		wp_register_style( 'login-me-now-main', login_me_now_url( 'assets/build/css/main.css' ) );
 	}
 }
