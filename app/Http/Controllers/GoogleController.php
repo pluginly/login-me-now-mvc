@@ -5,11 +5,9 @@ namespace LoginMeNow\App\Http\Controllers;
 use Google_Client;
 use LoginMeNow\App\Repositories\GoogleRepository;
 use LoginMeNow\App\Repositories\SettingsRepository;
-use LoginMeNow\Common\Singleton;
-use LoginMeNow\DTO\UserDataDTO;
+use LoginMeNow\App\DTO\UserDataDTO;
 
 class GoogleController {
-	use Singleton;
 
 	public function listen(): void {
 		if ( ! array_key_exists( 'lmn-google', $_GET ) ) {
