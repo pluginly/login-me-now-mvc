@@ -3,7 +3,7 @@
 namespace LoginMeNow\App\Repositories;
 
 use LoginMeNow\App\DTO\LoginDTO;
-use LoginMeNow\App\Models\User;
+use LoginMeNow\App\Helpers\User;
 use LoginMeNow\App\DTO\UserDataDTO;
 use WP_Error;
 

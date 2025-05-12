@@ -17,6 +17,18 @@ class MagicLinkRepository {
 		$this->disposable = $disposable;
 		$this->expiration = (int) SettingsRepository::get( 'email_magic_link_expiration', 300 );
 	}
+	public static function get_button() {
+		if( ! self::is_enable() ) {
+			return '';
+		}
+		include login_me_now_dir( 'resources/views/magiclink/button.php' );
+	}
+	
+	public static function is_enable() {
+
+		return (bool)  SettingsRepository::get('email_magic_link_enable', false );
+
+	}
 
 	/**
 	 * Send email the Magic Link

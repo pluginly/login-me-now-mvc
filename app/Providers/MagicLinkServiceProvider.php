@@ -3,10 +3,10 @@
 namespace LoginMeNow\App\Providers;
 
 use LoginMeNow\App\Contracts\LoginProviderBase;
-use LoginMeNow\App\DTO\LoginButtonDTO;
 use LoginMeNow\App\DTO\ProviderListenersDTO;
 use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
 use LoginMeNow\App\DTO\ProviderUserDataDTO;
+use LoginMeNow\App\Repositories\MagicLinkRepository;
 
 class MagicLinkServiceProvider implements LoginProviderBase {
 
@@ -27,14 +27,8 @@ class MagicLinkServiceProvider implements LoginProviderBase {
 	/**
 	 * Login Button to be displayed on the login page
 	 */
-	public static function get_button(): LoginButtonDTO {
-		$dto = new LoginButtonDTO();
-		$dto->set_class( 'lmn-browser-extension' );
-		$dto->set_icon( 'fa-solid fa-browser' );
-		$dto->set_label( 'Login with Browser Extension' );
-		$dto->set_modal_behavior( 'window' );
-
-		return $dto;
+	public static function get_button(): string {
+		return MagicLinkRepository::get_button();
 	}
 
 	/**
