@@ -1,18 +1,20 @@
 {
-	"name": "wpmvc/wpmvc",
+	"name": "pluginly/login-me-now",
 	"description": "WpMVC is a WordPress plugin framework that makes web development easy and enjoyable.",
 	"type": "project",
 	"license": "MIT",
-	"version": "1.1.1",
+	"version": "2.0.0",
 	"scripts": {
 		"setup": [
 			"composer install --no-cache",
+			"composer run pre-autoload-dump",
 			"composer humbug/php-scoper",
 			"composer add-prefix"
 		],
 		"build": [
 			"composer -d vendor --no-plugins --no-interaction install --no-scripts --no-dev"
 		],
+		"pre-autoload-dump": "Google\\Task\\Composer::cleanup",
 		"humbug/php-scoper": "composer bin php-scoper require --dev humbug/php-scoper:0.17.5",
 		"add-prefix": [
 			"vendor-src/bin/php-scoper add-prefix --config=dev-tools/scoper/index.php --output-dir vendor --force",
@@ -34,14 +36,17 @@
 	},
 	"authors": [
 		{
-			"name": "MD AL AMIN",
-			"email": "mdalaminbey@gmail.com"
+			"name": "Mehedi Hasan",
+			"email": "info@heymehedi.com"
 		}
 	],
 	"minimum-stability": "dev",
 	"require": {
 		"php": ">=7.4",
-		"wpmvc/framework": "1.1.1"
+		"wpmvc/framework": "1.1.1",
+        "firebase/php-jwt": "^6.3",
+        "google/apiclient": "^2.12.1",
+        "appsero/client": "^2.0"
 	},
 	"require-dev": {
 		"wpmvc/artisan": "1.1.0",
@@ -61,6 +66,9 @@
 	"extra": {
 		"bamarni-bin": {
 			"target-directory": "vendor-src/vendor-bin"
-		}
+		},
+		"google/apiclient-services": [
+            "Oauth2"
+        ]
 	}
 }

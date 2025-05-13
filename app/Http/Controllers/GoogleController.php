@@ -3,9 +3,9 @@
 namespace LoginMeNow\App\Http\Controllers;
 
 use Google_Client;
+use LoginMeNow\App\DTO\UserDataDTO;
 use LoginMeNow\App\Repositories\GoogleRepository;
 use LoginMeNow\App\Repositories\SettingsRepository;
-use LoginMeNow\App\DTO\UserDataDTO;
 
 class GoogleController {
 

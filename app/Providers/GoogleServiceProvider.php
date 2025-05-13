@@ -17,8 +17,9 @@ class GoogleServiceProvider implements LoginProviderBase {
 		add_filter( 'login_me_now_google_login_show_onetap', [$this, 'onetap'] );
 		add_filter( 'get_avatar_url', [$this, 'avatar'], 10, 3 );
 		add_action( "login_me_now_after_login", [$this, 'verified'], 10, 2 );
-		add_action( 'init', [GoogleController::class, 'listen'] );
 		add_shortcode( 'login_me_now_google_button', [$this, 'shortcode_button'] );
+
+		( new GoogleController() )->listen();
 	}
 
 	public static function get_key(): string {

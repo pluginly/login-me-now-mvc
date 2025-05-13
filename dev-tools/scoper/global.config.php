@@ -33,7 +33,8 @@ return [
         'Elementor',
         'PHP_CodeSniffer',
         'PHPCompatibility',
-        'Symfony\Polyfill'
+        'Symfony\Polyfill',
+        'GuzzleHttp'
     ],
     'exclude-classes'         => [
         'WP_HTTP_Response',
