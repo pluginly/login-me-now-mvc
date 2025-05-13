@@ -14,10 +14,16 @@ use LoginMeNow\App\Repositories\SettingsRepository;
 class GoogleServiceProvider implements LoginProviderBase {
 
 	public function boot() {
-		add_filter( 'login_me_now_google_login_show_onetap', [$this, 'onetap'] );
+		add_filter( 'login_me_now_google_login_show_onetap', [$this, 'onetap_display'] );
 		add_filter( 'get_avatar_url', [$this, 'avatar'], 10, 3 );
 		add_action( "login_me_now_after_login", [$this, 'verified'], 10, 2 );
 		add_shortcode( 'login_me_now_google_button', [$this, 'shortcode_button'] );
+
+		// OneTap
+		add_action( 'wp_enqueue_scripts', [$this, 'onetap_enqueue_scripts'], 50 );
+		add_action( 'login_enqueue_scripts', [$this, 'onetap_enqueue_scripts'], 1 );
+		add_action( 'wp_footer', [$this, 'onetap_credential'], 50 );
+		add_action( 'login_footer', [$this, 'onetap_credential'], 50 );
 
 		( new GoogleController() )->listen();
 	}
@@ -228,19 +234,19 @@ class GoogleServiceProvider implements LoginProviderBase {
 		return $dto;
 	}
 
-	public function onetap() {
-		if ( ! $this->show() ) {
+	public function onetap_display() {
+		if ( is_user_logged_in() ) {
 			return false;
 		}
 
-		if ( is_user_logged_in() ) {
+		if ( ! $this->onetap_display_on() ) {
 			return false;
 		}
 
 		return true;
 	}
 
-	private function show(): bool {
+	private function onetap_display_on(): bool {
 		$show_on = SettingsRepository::get( 'google_onetap_display_location', 'side_wide' );
 
 		$return = false;
@@ -258,6 +264,37 @@ class GoogleServiceProvider implements LoginProviderBase {
 
 		return $return;
 	}
+
+	public function onetap_enqueue_scripts() {
+		wp_enqueue_script( 'login-me-now-google-client-js', '//accounts.google.com/gsi/client' );
+	}
+
+	public function onetap_credential() {
+		global $wp;
+		$nonce          = wp_create_nonce( 'lmn-google-nonce' );
+		$client_id      = SettingsRepository::get( 'google_client_id' );
+		$cancel_outside = SettingsRepository::get( 'google_cancel_on_tap_outside', true );
+		$current_url    = home_url( add_query_arg( [], $wp->request ) );
+		$login_uri      = home_url() . '/?lmn-google';
+		$show_onetap    = apply_filters( 'login_me_now_google_login_show_onetap', true );
+		?>
+
+		<div id="g_id_onload"
+			data-client_id="<?php echo esc_attr( $client_id ); ?>"
+			data-wpnonce="<?php echo esc_attr( $nonce ); ?>"
+			data-redirect_uri="<?php echo esc_attr( $current_url ); ?>"
+			data-login_uri="<?php echo esc_attr( $login_uri ); ?>"
+
+			data-auto_prompt="<?php echo $show_onetap ? 'true' : 'false'; ?>"
+
+			<?php if ( $show_onetap ): ?>
+				data-context=""
+				data-itp_support="true"
+				data-cancel_on_tap_outside="<?php echo esc_attr( $cancel_outside ? 'true' : 'false' ); ?>"
+			<?php endif; ?>
+			>
+		</div>
+	<?php }
 
 	public function verified( $user_id, $channel_name ) {
 		if ( 'google' !== $channel_name ) {
