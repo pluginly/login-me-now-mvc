@@ -34,7 +34,8 @@ return [
         'PHP_CodeSniffer',
         'PHPCompatibility',
         'Symfony\Polyfill',
-        'GuzzleHttp'
+        'GuzzleHttp',
+        'phpseclib3'
     ],
     'exclude-classes'         => [
         'WP_HTTP_Response',
