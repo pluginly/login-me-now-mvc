@@ -2,9 +2,9 @@
 
 namespace LoginMeNow\App\Repositories;
 
-use LoginMeNow\Utils\Random;
-use LoginMeNow\Utils\Time;
-use LoginMeNow\Utils\Translator;
+use LoginMeNow\App\Helpers\Random;
+use LoginMeNow\App\Helpers\Time;
+use LoginMeNow\App\Helpers\Translator;
 
 class MagicLinkRepository {
 

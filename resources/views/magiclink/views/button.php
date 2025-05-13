@@ -1,9 +1,4 @@
 <?php
-/**
- * @author  Pluginly
- * @since   1.4.0
- * @version 1.6.0
- */
 
 use LoginMeNow\Repositories\SettingsRepository;
 ?>

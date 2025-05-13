@@ -1,15 +1,11 @@
 <?php
-/**
- * @author  Pluginly
- * @since   1.9
- * @version 1.9
- */
+
 
 namespace LoginMeNow\Logins\MagicLinkLogin;
 
 use LoginMeNow\Common\LoginProviderButtonBase;
 use LoginMeNow\Repositories\SettingsRepository;
-use LoginMeNow\Utils\User;
+use LoginMeNow\App\Helpers\User;
 
 class Button extends LoginProviderButtonBase {
 
