@@ -3,9 +3,9 @@
 namespace LoginMeNow\App\Http\Controllers;
 
 use Google_Client;
+use LoginMeNow\App\DTO\UserDataDTO;
 use LoginMeNow\App\Repositories\GoogleRepository;
 use LoginMeNow\App\Repositories\SettingsRepository;
-use LoginMeNow\App\DTO\UserDataDTO;
 
 class GoogleController {
 
@@ -23,7 +23,7 @@ class GoogleController {
 		}
 	}
 
-	public function listen_button(): void {
+	private function listen_button(): void {
 		$client_id     = SettingsRepository::init()->get( 'google_client_id' );
 		$client_secret = SettingsRepository::init()->get( 'google_client_secret' );
 		$redirect_uri  = home_url( 'wp-login.php?lmn-google' );
