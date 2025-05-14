@@ -99,13 +99,13 @@ use LoginMeNow\App\Repositories\SettingsRepository;
                         messageBox.style.color = "green";
                         emailInput.value = ""; // Clear email input
                     } else {
-                        messageBox.textContent = data.data.message || "<?php esc_attr_e( 'An error occurred. Please try again.', 'login-me-now' ); ?>";
+                        messageBox.textContent = data.data.message || "<?php esc_attr_e( 'An error occurred. Please try again.1', 'login-me-now' ); ?>";
                         messageBox.style.color = "red";
                     }
                 })
                 .catch((error) => {
                     console.error("Error:", error);
-                    messageBox.textContent = "<?php esc_attr_e( 'An error occurred. Please try again.', 'login-me-now' ); ?>";
+                    messageBox.textContent = "<?php esc_attr_e( 'An error occurred. Please try again.2', 'login-me-now' ); ?>";
                     messageBox.style.color = "red";
                 });
         });

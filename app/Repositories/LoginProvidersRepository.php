@@ -28,7 +28,7 @@ class LoginProvidersRepository {
 		$providers = apply_filters( 'login_me_now_available_providers', [
 			\LoginMeNow\App\Providers\GoogleServiceProvider::class,
 			// \LoginMeNow\App\Providers\FacebookServiceProvider::class,
-			// \LoginMeNow\App\Providers\MagicLinkServiceProvider::class,
+			\LoginMeNow\App\Providers\MagicLinkServiceProvider::class,
 		] );
 
 		$mapped = [];

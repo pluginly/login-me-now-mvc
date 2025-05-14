@@ -13,6 +13,8 @@ class MagicLinkServiceProvider implements LoginProviderBase {
 	/**
 	 * Unique Key of the Login Provider, like: email-magic-link
 	 */
+	public function boot() {
+	}
 	public static function get_key(): string {
 		return 'email_magic_link_enable';
 	}
@@ -139,11 +141,8 @@ class MagicLinkServiceProvider implements LoginProviderBase {
 	 */
 	public function user_data(): ProviderUserDataDTO {
 		$dto = new ProviderUserDataDTO();
-
+		
 		return $dto;
 	}
-
-	public function boot() {
-		include_once login_me_now_dir( 'resources/views/browser-token/extension-popup.php' );
-	}
+	
 }

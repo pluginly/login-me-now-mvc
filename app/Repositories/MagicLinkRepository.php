@@ -22,12 +22,17 @@ class MagicLinkRepository {
 		if( ! self::is_enable() ) {
 			return '';
 		}
-		include login_me_now_dir( 'resources/views/magiclink/button.php' );
+			ob_start();
+		/** @psalm-suppress MissingFile */// phpcs:ignore Generic.Commenting.DocComment.MissingShort
+		include login_me_now_dir( 'resources/views/magic-link/button.php' );
+		/** @psalm-suppress MissingFile */// phpcs:ignore Generic.Commenting.DocComment.MissingShort
+		$html = ob_get_clean();
+		return $html;
 	}
 	
 	public static function is_enable() {
 
-		return (bool)  SettingsRepository::get('email_magic_link_enable', false );
+		return true;
 
 	}
 
@@ -219,7 +224,7 @@ class MagicLinkRepository {
 			]
 		);
 
-		\LoginMeNow\Integrations\SimpleHistory\Logs::add( $user_id, "generated an email magic link" );
+		// \LoginMeNow\Integrations\SimpleHistory\Logs::add( $user_id, "generated an email magic link" );
 
 		return $token;
 	}

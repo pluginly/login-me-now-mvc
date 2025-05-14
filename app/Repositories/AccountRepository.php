@@ -95,7 +95,7 @@ class AccountRepository {
 			->set_redirect_uri( $redirect_uri )
 			->set_redirect_return( false );
 
-		( new AccountRepository )->login( $dto );
+		( new AccountRepository )->login( $dto, $userDataDTO  );
 	}
 
 	public function unique_username( UserDataDTO $userDataDTO ): string {
