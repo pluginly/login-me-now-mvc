@@ -1,6 +1,6 @@
 <?php
 
-use LoginMeNow\Repositories\SettingsRepository;
+use LoginMeNow\App\Repositories\SettingsRepository;
 ?>
 
 <div class="lmn_magic_link_login">

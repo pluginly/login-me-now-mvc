@@ -107,7 +107,7 @@ class GoogleController {
 			return;
 		}
 
-		$this->redirect_return = false;
+		// $this->redirect_return = false;
 
 		$userDataDTO = ( new UserDataDTO )
 			->set_id( $data['ID'] ?? 0 )
