@@ -1,11 +1,12 @@
 <?php
 
-namespace LoginMeNow\App\Http\MagicLinkController;
+namespace LoginMeNow\App\Http\Controllers;
 
 use LoginMeNow\App\DTO\LoginDTO;
 use LoginMeNow\App\Repositories\AccountRepository;
 use LoginMeNow\App\Repositories\MagicLinkRepository;
-use LoginMeNow\App\Helpers\Helper;
+use LoginMeNow\App\Http\Controllers\Controller;
+use LoginMeNow\App\DTO\UserDataDTO;
 
 class MagicLinkController extends Controller {
 	public function send_magic_link() {
@@ -39,7 +40,7 @@ class MagicLinkController extends Controller {
 		] );
 	}
 
-	public function listen_magic_link(): void {
+	public function listen_magic_link():void {
 		if ( ! isset( $_GET['lmn-magic-link'] ) || empty( $_GET['lmn-magic-link'] ) ) {
 			return;
 		}
@@ -50,20 +51,22 @@ class MagicLinkController extends Controller {
 		if ( ! $user_id ) {
 			$title   = __( 'Invalid Magic Link mm', 'login-me-now' );
 			$message = __( 'Request a new access link in order to obtain dashboard access', 'login-me-now' );
-			Helper::get_template_part( '/templates/admin/messages/error', ['title' => $title, 'message' => $message] );
+			ob_start();
+			include login_me_now_dir( 'resources/views/magic-link/error-message.php' );
+			$html = ob_get_clean();
+			echo $html;
 			exit();
 		}
 
 		$redirect_uri = apply_filters( 'login_me_now_temporary_login_redirect_uri', admin_url() );
 		$message      = __( "logged in using temporary login link", 'login-me-now' );
-		\LoginMeNow\Integrations\SimpleHistory\Logs::add( $user_id, $message );
 
+		$userDataDTO = new UserDataDTO();
 		$dto = ( new LoginDTO )
 			->set_user_id( $user_id )
 			->set_redirect_uri( $redirect_uri )
 			->set_redirect_return( false )
 			->set_channel_name( 'link_login' );
-
-		( new AccountRepository )->login( $dto );
+		( new AccountRepository )->login( $dto,$userDataDTO);
 	}
 }

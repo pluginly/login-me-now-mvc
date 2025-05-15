@@ -3,16 +3,20 @@
 namespace LoginMeNow\App\Providers;
 
 use LoginMeNow\App\Contracts\LoginProviderBase;
-use LoginMeNow\App\DTO\LoginButtonDTO;
 use LoginMeNow\App\DTO\ProviderListenersDTO;
 use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
 use LoginMeNow\App\DTO\ProviderUserDataDTO;
+use LoginMeNow\App\Http\Controllers\MagicLinkController;
+use LoginMeNow\App\Repositories\MagicLinkRepository;
 
 class MagicLinkServiceProvider implements LoginProviderBase {
 
 	/**
 	 * Unique Key of the Login Provider, like: email-magic-link
 	 */
+	public function boot() {
+		(new MagicLinkController())->listen_magic_link();
+	}
 	public static function get_key(): string {
 		return 'email_magic_link_enable';
 	}
@@ -27,14 +31,8 @@ class MagicLinkServiceProvider implements LoginProviderBase {
 	/**
 	 * Login Button to be displayed on the login page
 	 */
-	public static function get_button(): LoginButtonDTO {
-		$dto = new LoginButtonDTO();
-		$dto->set_class( 'lmn-browser-extension' );
-		$dto->set_icon( 'fa-solid fa-browser' );
-		$dto->set_label( 'Login with Browser Extension' );
-		$dto->set_modal_behavior( 'window' );
-
-		return $dto;
+	public static function get_button(): string {
+		return MagicLinkRepository::get_button();
 	}
 
 	/**
@@ -135,7 +133,6 @@ class MagicLinkServiceProvider implements LoginProviderBase {
 	 */
 	public function listener(): ProviderListenersDTO {
 		$dto = new ProviderListenersDTO();
-		// $dto->is( 'lmn-browser-extension' );
 
 		return $dto;
 	}
@@ -145,11 +142,8 @@ class MagicLinkServiceProvider implements LoginProviderBase {
 	 */
 	public function user_data(): ProviderUserDataDTO {
 		$dto = new ProviderUserDataDTO();
-
+		
 		return $dto;
 	}
-
-	public function boot() {
-		include_once login_me_now_dir( 'resources/views/browser-token/extension-popup.php' );
-	}
+	
 }

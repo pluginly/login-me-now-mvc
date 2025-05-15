@@ -1,6 +1,6 @@
 <?php
 
-use LoginMeNow\App\Http\MagicLinkController\MagicLinkController;
+use LoginMeNow\App\Http\Controllers\MagicLinkController;
 use LoginMeNow\WpMVC\Routing\Route;
 
 

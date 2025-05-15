@@ -2,9 +2,10 @@
 
 namespace LoginMeNow\App\Repositories;
 
-use LoginMeNow\Utils\Random;
-use LoginMeNow\Utils\Time;
-use LoginMeNow\Utils\Translator;
+use LoginMeNow\App\Helpers\MagicLink\Random;
+use LoginMeNow\App\Helpers\MagicLink\Time;
+use LoginMeNow\App\Helpers\MagicLink\Translator;
+
 
 class MagicLinkRepository {
 
@@ -16,6 +17,23 @@ class MagicLinkRepository {
 	public function __construct( bool $disposable = true ) {
 		$this->disposable = $disposable;
 		$this->expiration = (int) SettingsRepository::get( 'email_magic_link_expiration', 300 );
+	}
+	public static function get_button() {
+		if( ! self::is_enable() ) {
+			return '';
+		}
+			ob_start();
+		/** @psalm-suppress MissingFile */// phpcs:ignore Generic.Commenting.DocComment.MissingShort
+		include login_me_now_dir( 'resources/views/magic-link/button.php' );
+		/** @psalm-suppress MissingFile */// phpcs:ignore Generic.Commenting.DocComment.MissingShort
+		$html = ob_get_clean();
+		return $html;
+	}
+	
+	public static function is_enable() {
+
+		return true;
+
 	}
 
 	/**
@@ -205,8 +223,6 @@ class MagicLinkRepository {
 				'expire'     => $expire,
 			]
 		);
-
-		\LoginMeNow\Integrations\SimpleHistory\Logs::add( $user_id, "generated an email magic link" );
 
 		return $token;
 	}

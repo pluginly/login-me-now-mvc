@@ -3,7 +3,7 @@
 namespace LoginMeNow\App\Repositories;
 
 use LoginMeNow\App\DTO\LoginDTO;
-use LoginMeNow\App\Models\User;
+use LoginMeNow\App\Helpers\User;
 use LoginMeNow\App\DTO\UserDataDTO;
 use WP_Error;
 
@@ -31,7 +31,7 @@ class AccountRepository {
 		}
 
 		$user = get_user_by( 'id', $user_id );
-
+		
 		wp_clear_auth_cookie();
 		wp_set_current_user( $user_id, $user->user_login );
 		wp_set_auth_cookie( $user_id, true );
@@ -95,7 +95,7 @@ class AccountRepository {
 			->set_redirect_uri( $redirect_uri )
 			->set_redirect_return( false );
 
-		( new AccountRepository )->login( $dto );
+		( new AccountRepository )->login( $dto, $userDataDTO  );
 	}
 
 	public function unique_username( UserDataDTO $userDataDTO ): string {
