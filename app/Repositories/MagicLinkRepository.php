@@ -23,9 +23,7 @@ class MagicLinkRepository {
 			return '';
 		}
 			ob_start();
-		/** @psalm-suppress MissingFile */// phpcs:ignore Generic.Commenting.DocComment.MissingShort
 		include login_me_now_dir( 'resources/views/magic-link/button.php' );
-		/** @psalm-suppress MissingFile */// phpcs:ignore Generic.Commenting.DocComment.MissingShort
 		$html = ob_get_clean();
 		return $html;
 	}
@@ -36,14 +34,6 @@ class MagicLinkRepository {
 
 	}
 
-	/**
-	 * Send email the Magic Link
-	 *
-	 * @param int $user_id
-	 * @param string $email
-	 *
-	 * @return bool
-	 */
 	public function email_magic_link( int $user_id, string $email ): bool {
 		$magic_link = $this->create_magic_link( $user_id );
 
@@ -51,20 +41,16 @@ class MagicLinkRepository {
 			return false;
 		}
 
-		// Get site title
 		$site_title = get_bloginfo( 'name' );
 
-		// Subject of the email
 		$subject = sprintf( __( 'Your Magic Link to %s', 'login-me-now' ), $site_title );
 
-		// Convert expiration time from seconds to a human-readable format
 		$readable_expiration = $this->expiration < 3600
 			? sprintf( _n( '%d minute', '%d minutes', $this->expiration / 60, 'login-me-now' ), $this->expiration / 60 )
 			: ( $this->expiration < 86400
 				? sprintf( _n( '%d hour', '%d hours', $this->expiration / 3600, 'login-me-now' ), $this->expiration / 3600 )
 				: sprintf( _n( '%d day', '%d days', $this->expiration / 86400, 'login-me-now' ), $this->expiration / 86400 ) );
 
-		// Improved email message
 		$message = sprintf(
 			__(
 				"Hi there,<br><br>
@@ -87,7 +73,6 @@ class MagicLinkRepository {
 			$site_title
 		);
 
-		// Headers with HTML content type
 		$headers = ['Content-Type: text/html; charset=UTF-8'];
 
 		$mail_sent = wp_mail( $email, $subject, $message, $headers );
@@ -99,12 +84,6 @@ class MagicLinkRepository {
 		return $mail_sent;
 	}
 
-	/**
-	 * Create Magic Link based on User ID and Expiration
-	 *
-	 * @param int $user_id
-	 * @return array|bool
-	 */
 	public function create_magic_link( int $user_id ) {
 		if ( ! function_exists( 'get_userdata' ) ) {
 			require_once ABSPATH . WPINC . '/pluggable.php';
@@ -132,11 +111,6 @@ class MagicLinkRepository {
 		];
 	}
 
-	/**
-	 * Verify the user token and return user ID or 0
-	 *
-	 * @return int
-	 */
 	public function verify_token( string $token ): int {
 		if ( ! $token ) {
 			return false;
@@ -158,27 +132,13 @@ class MagicLinkRepository {
 		return (int) $user_id;
 	}
 
-	/**
-	 * Validate the token and return true or false
-	 *
-	 * @param int $user_id
-	 * @param string $key
-	 * @param int $expire
-	 * @return bool
-	 */
 	private function is_valid_token( int $user_id, string $key, int $expire ): bool {
 		$user_meta = get_user_meta( $user_id, $this->token_meta_key, false );
 
-		/**
-		 * Early exit, If no meta found
-		 */
 		if ( ! $user_meta ) {
 			return false;
 		}
 
-		/**
-		 * Check whether the user has the valid token in usermeta or not
-		 */
 		foreach ( $user_meta as $token ) {
 			$_key    = (string) $token['key'] ?? '';
 			$_expire = (int) $token['expire'] ?? 0;
@@ -199,13 +159,6 @@ class MagicLinkRepository {
 		return false;
 	}
 
-	/**
-	 * Generate token based on User & Expiration
-	 *
-	 * @param \WP_User $user
-	 * @param int $secs
-	 * @return string
-	 */
 	private function generate_token( \WP_User $user, int $secs ): string {
 		$issued_at = Time::now();
 		$expire    = apply_filters( 'login_me_now_magic_link_expire', $secs, $issued_at );
@@ -223,8 +176,6 @@ class MagicLinkRepository {
 				'expire'     => $expire,
 			]
 		);
-
-		// \LoginMeNow\Integrations\SimpleHistory\Logs::add( $user_id, "generated an email magic link" );
 
 		return $token;
 	}

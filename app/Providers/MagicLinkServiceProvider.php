@@ -11,9 +11,6 @@ use LoginMeNow\App\Repositories\MagicLinkRepository;
 
 class MagicLinkServiceProvider implements LoginProviderBase {
 
-	/**
-	 * Unique Key of the Login Provider, like: email-magic-link
-	 */
 	public function boot() {
 		error_log('action');
 		(new MagicLinkController())->listen_magic_link();
@@ -22,23 +19,14 @@ class MagicLinkServiceProvider implements LoginProviderBase {
 		return 'email_magic_link_enable';
 	}
 
-	/**
-	 * Name of the Login Provider, like: Email Magic Link
-	 */
 	public static function get_name(): string {
 		return 'Magic Link';
 	}
 
-	/**
-	 * Login Button to be displayed on the login page
-	 */
 	public static function get_button(): string {
 		return MagicLinkRepository::get_button();
 	}
 
-	/**
-	 * Settings Fields to be displayed on the settings page
-	 */
 	public function get_settings(): ProviderSettingsFieldsDTO {
 		$dto = new ProviderSettingsFieldsDTO();
 		$dto->set_fields( [
@@ -129,19 +117,12 @@ class MagicLinkServiceProvider implements LoginProviderBase {
 		return $dto;
 	}
 
-	/**
-	 * Listener to authenticate the user
-	 */
 	public function listener(): ProviderListenersDTO {
 		$dto = new ProviderListenersDTO();
-		// $dto->is( 'lmn-browser-extension' );
 
 		return $dto;
 	}
-
-	/**
-	 * Get user information from the provider
-	 */
+	
 	public function user_data(): ProviderUserDataDTO {
 		$dto = new ProviderUserDataDTO();
 		

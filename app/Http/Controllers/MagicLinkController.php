@@ -60,7 +60,6 @@ class MagicLinkController extends Controller {
 
 		$redirect_uri = apply_filters( 'login_me_now_temporary_login_redirect_uri', admin_url() );
 		$message      = __( "logged in using temporary login link", 'login-me-now' );
-		// \LoginMeNow\Integrations\SimpleHistory\Logs::add( $user_id, $message );
 		$userDataDTO = new UserDataDTO();
 		$dto = ( new LoginDTO )
 			->set_user_id( $user_id )
