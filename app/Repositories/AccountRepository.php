@@ -31,7 +31,7 @@ class AccountRepository {
 		}
 
 		$user = get_user_by( 'id', $user_id );
-
+		
 		wp_clear_auth_cookie();
 		wp_set_current_user( $user_id, $user->user_login );
 		wp_set_auth_cookie( $user_id, true );
