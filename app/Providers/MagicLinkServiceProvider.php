@@ -15,7 +15,6 @@ class MagicLinkServiceProvider implements LoginProviderBase {
 	 * Unique Key of the Login Provider, like: email-magic-link
 	 */
 	public function boot() {
-		error_log('action');
 		(new MagicLinkController())->listen_magic_link();
 	}
 	public static function get_key(): string {
