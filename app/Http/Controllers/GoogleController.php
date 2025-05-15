@@ -106,6 +106,7 @@ class GoogleController {
 
 			return;
 		}
+
 		$this->redirect_return = false;
 
 		$userDataDTO = ( new UserDataDTO )
