@@ -8,7 +8,7 @@ use LoginMeNow\App\Repositories\GoogleRepository;
 use LoginMeNow\App\Repositories\SettingsRepository;
 
 class GoogleController {
-		public $redirect_return;
+		public bool $redirect_return;
 	public function listen(): void {
 		if ( ! array_key_exists( 'lmn-google', $_GET ) ) {
 			return;
