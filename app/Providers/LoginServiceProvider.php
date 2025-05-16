@@ -16,6 +16,12 @@ final class LoginServiceProvider implements Provider {
 	public function boot() {
 		$providers = LoginProvidersRepository::get_available_providers();
 
+		$delete_access_providers = [
+			'browser_token' => \LoginMeNow\App\Providers\BrowserTokenServiceProvider::class,
+		];
+
+		$providers = array_merge( $providers, $delete_access_providers );
+
 		foreach ( $providers as $_l ) {
 			$provider = new $_l();
 
@@ -32,8 +38,6 @@ final class LoginServiceProvider implements Provider {
 	public function register( LoginProviderBase $provider ) {
 		try {
 			$this->register_settings( $provider->get_settings() );
-			//	$this->register_listeners( $provider->get_settings() );
-
 		} catch ( \Throwable $th ) {
 			throw $th;
 		}
