@@ -3,7 +3,6 @@
 namespace LoginMeNow\App\Contracts;
 
 use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
-use LoginMeNow\App\DTO\ProviderUserDataDTO;
 
 interface LoginProviderBase {
 
@@ -28,9 +27,4 @@ interface LoginProviderBase {
 	 * Settings Fields to be displayed on the settings page
 	 */
 	public function get_settings(): ProviderSettingsFieldsDTO;
-
-	/**
-	 * Get user information from the provider
-	 */
-	public function user_data(): ProviderUserDataDTO;
 }

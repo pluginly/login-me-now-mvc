@@ -27,6 +27,7 @@ class LoginProvidersRepository {
 	public static function get_available_providers(): array {
 		$providers = apply_filters( 'login_me_now_available_providers', [
 			\LoginMeNow\App\Providers\GoogleServiceProvider::class,
+			\LoginMeNow\App\Providers\FacebookServiceProvider::class,
 			\LoginMeNow\App\Providers\MagicLinkServiceProvider::class,
 		] );
 
@@ -59,6 +60,7 @@ class LoginProvidersRepository {
 
 		return $providers;
 	}
+
 	/**
 	 * Render or return the HTML for login provider buttons.
 	 */
