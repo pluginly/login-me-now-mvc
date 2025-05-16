@@ -4,7 +4,6 @@ namespace LoginMeNow\App\Providers;
 
 use LoginMeNow\App\Contracts\LoginProviderBase;
 use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
-use LoginMeNow\App\DTO\ProviderUserDataDTO;
 use LoginMeNow\App\Helpers\User;
 use LoginMeNow\App\Http\Controllers\GoogleController;
 use LoginMeNow\App\Repositories\GoogleRepository;
@@ -221,15 +220,6 @@ class GoogleServiceProvider implements LoginProviderBase {
 				],
 			]
 		);
-
-		return $dto;
-	}
-
-	/**
-	 * Get user information from the provider
-	 */
-	public function user_data(): ProviderUserDataDTO {
-		$dto = new ProviderUserDataDTO();
 
 		return $dto;
 	}
