@@ -49,6 +49,8 @@ class SettingsRepository {
 	public static function get( string $key, $default = null ) {
 		$settings = get_option( self::$option_name, [] ); 
 		self::$settings =  is_array( $settings ) ? $settings : [];
+
+		return self::$settings[$key] ?? $default;
 	}
 
 	public static function update( string $key, $value ): void {
