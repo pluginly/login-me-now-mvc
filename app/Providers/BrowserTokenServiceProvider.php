@@ -11,9 +11,8 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 		if ( ! is_admin() ) {
 			return;
 		}
-		ob_start();
-		include_once login_me_now_dir( 'resources/views/browser-token/extension-popup.php' );
-		return ob_get_clean();
+
+		add_action( 'admin_footer', [$this, 'lmn_save_popup'] );
 	}
 
 	public static function get_key(): string {
@@ -49,5 +48,9 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 		] );
 
 		return $dto;
+	}
+
+	public function lmn_save_popup() {
+		include_once login_me_now_dir( 'resources/views/browser-token/extension-popup.php' );
 	}
 }
