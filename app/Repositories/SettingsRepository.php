@@ -8,7 +8,8 @@ class SettingsRepository {
 	private static $instance;
 
 	public function __construct() {
-		self::$settings = get_option( self::$option_name, [] );
+		$settings = get_option( self::$option_name, [] ); 
+		self::$settings =  is_array( $settings ) ? $settings : [];
 	}
 
 	public static function init(): object {
@@ -46,9 +47,8 @@ class SettingsRepository {
 	}
 
 	public static function get( string $key, $default = null ) {
-		self::$settings = get_option( self::$option_name, [] );
-
-		return self::$settings[$key] ?? $default;
+		$settings = get_option( self::$option_name, [] ); 
+		self::$settings =  is_array( $settings ) ? $settings : [];
 	}
 
 	public static function update( string $key, $value ): void {

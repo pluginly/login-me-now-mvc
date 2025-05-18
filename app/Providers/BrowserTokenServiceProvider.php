@@ -12,7 +12,7 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 			return;
 		}
 
-		include_once login_me_now_dir( 'resources/views/browser-token/extension-popup.php' );
+		// include_once login_me_now_dir( 'resources/views/browser-token/extension-popup.php' );
 	}
 
 	public static function get_key(): string {
