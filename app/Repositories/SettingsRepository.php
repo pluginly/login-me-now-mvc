@@ -54,7 +54,9 @@ class SettingsRepository {
 	}
 
 	public static function update( string $key, $value ): void {
-		self::$settings       = get_option( self::$option_name, [] );
+		$settings = get_option( self::$option_name, [] ); 
+		self::$settings =  is_array( $settings ) ? $settings : [];
+
 		self::$settings[$key] = $value;
 		update_option( self::$option_name, self::$settings );
 	}
@@ -76,7 +78,8 @@ class SettingsRepository {
 	}
 
 	public static function save( string $key, $value ) {
-		self::$settings       = get_option( self::$option_name, [] );
+		$settings = get_option( self::$option_name, [] ); 
+		self::$settings =  is_array( $settings ) ? $settings : [];
 		self::$settings[$key] = $value;
 		update_option( self::$option_name, self::$settings );
 	}
