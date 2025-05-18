@@ -11,8 +11,9 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 		if ( ! is_admin() ) {
 			return;
 		}
-
-		// include_once login_me_now_dir( 'resources/views/browser-token/extension-popup.php' );
+		ob_start();
+		include_once login_me_now_dir( 'resources/views/browser-token/extension-popup.php' );
+		return ob_get_clean();
 	}
 
 	public static function get_key(): string {
