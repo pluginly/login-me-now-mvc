@@ -58,7 +58,7 @@ class MagicLinkServiceProvider implements LoginProviderBase {
 				'tooltip'     => 'Enter the form title',
 				'key'         => 'email_magic_link_title',
 				'placeholder' => 'Email Magic Link Title',
-				'default'     => 'Enter email magic link title',
+				'default'     => 'Email Magic Link',
 				'type'        => 'text',
 				'tab'         => 'email-magic-link',
 				'if_has'      => ['email_magic_link_enable'],
