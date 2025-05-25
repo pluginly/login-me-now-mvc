@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LoginMeNow\Repositories;
+namespace LoginMeNow\App\Repositories;
 
 use Exception;
 use LoginMeNow\Common\Singleton;
@@ -18,8 +18,8 @@ use \Firebase\JWT\Key;
 /**
  * The JWT Handling Class
  */
-class JWTAuth {
-	use Singleton;
+class JWTAuthRepository {
+	// use Singleton;
 
 	/**
 	 * Supported algorithms to sign the token
@@ -118,7 +118,8 @@ class JWTAuth {
 		);
 
 		/** Store the token ref in user meta using the $issuedAt, so we can block the token if needed */
-		BrowserTokenModel::init()->insert( $user->data->ID, $rand_number, $expire, 'active' );
+		$Btm = new BrowserTokenModel();
+		 $Btm->insert( $user->data->ID, $rand_number, $expire, 'active' );
 
 		\LoginMeNow\Integrations\SimpleHistory\Logs::add( $user->data->ID, "generated a token for browser extension (Token ID: {$rand_number})" );
 

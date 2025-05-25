@@ -45,6 +45,8 @@ $localize = [
 	'plugin_activate_text'   => __( 'Activate', 'login-me-now' ),
 	'upgrade_notice'         => true,
 	'time_zone'              => wp_timezone_string(),
+	'browser_token_generate' =>rest_url('login-me-now/login_me_now_browser_token_generate'),
+	'browser_tokens' =>rest_url('login-me-now/login_me_now_browser_tokens'),
 ];
 
 wp_localize_script( 'login-me-now-admin-main', 'lmn_admin', $localize );

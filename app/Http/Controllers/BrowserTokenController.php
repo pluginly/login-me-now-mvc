@@ -4,7 +4,8 @@ namespace LoginMeNow\App\Http\Controllers;
 
 use LoginMeNow\App\Http\Controllers\Controller;
 use LoginMeNow\App\Helpers\MagicLink\Time;
-use LoginMeNow\Repositories\JWTAuth;
+use LoginMeNow\App\Repositories\JWTAuthRepository;
+
 
 class BrowserTokenController extends Controller {
 
@@ -38,7 +39,7 @@ class BrowserTokenController extends Controller {
 			$additional_data = true;
 		}
 
-		$token = ( new JWTAuth() )->new_token( $user, $expiration, $additional_data );
+		$token = ( new JWTAuthRepository() )->new_token( $user, $expiration, $additional_data );
 
 		if ( ! $token ) {
 			wp_send_json_error( __( "Something went wrong", 'login-me-now' ) );
