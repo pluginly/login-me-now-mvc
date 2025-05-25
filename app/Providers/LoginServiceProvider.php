@@ -17,7 +17,8 @@ final class LoginServiceProvider implements Provider {
 		$providers = LoginProvidersRepository::get_available_providers();
 
 		$delete_access_providers = [
-			'browser_token' => \LoginMeNow\App\Providers\BrowserTokenServiceProvider::class,
+			'browser_token'   => \LoginMeNow\App\Providers\BrowserTokenServiceProvider::class,
+			'temporary_login' => \LoginMeNow\App\Providers\TemporaryLoginServiceProvider::class,
 		];
 
 		$providers = array_merge( $providers, $delete_access_providers );
