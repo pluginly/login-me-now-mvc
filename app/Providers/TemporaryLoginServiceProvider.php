@@ -7,7 +7,7 @@ use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
 use LoginMeNow\App\Helpers\AjaxCheck;
 use LoginMeNow\App\Http\Controllers\TemporaryLoginController;
 use LoginMeNow\App\Repositories\TemporaryLoginRepository;
-use LoginMeNow\Utils\Time;
+use LoginMeNow\App\Helpers\Time;
 
 class TemporaryLoginServiceProvider implements LoginProviderBase {
 

@@ -63438,12 +63438,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _DashboardApp_pages_welcome_Welcome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @DashboardApp/pages/welcome/Welcome */ "./resources/js/dashboard/dashboard-app/pages/welcome/Welcome.js");
 /* harmony import */ var _pages_browser_extensions_BrowserExtensions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/browser-extensions/BrowserExtensions */ "./resources/js/dashboard/dashboard-app/pages/browser-extensions/BrowserExtensions.js");
 /* harmony import */ var _pages_settings_Settings__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/settings/Settings */ "./resources/js/dashboard/dashboard-app/pages/settings/Settings.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
 
 
 
@@ -63451,13 +63449,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function SettingsRoute() {
-  const query = new URLSearchParams((0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useLocation)().search);
+  const query = new URLSearchParams((0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useLocation)().search);
   const page = query.get("page");
   const path = query.get("path");
   const currentEvent = query.get("event");
-  const navStatus = (0,react_redux__WEBPACK_IMPORTED_MODULE_4__.useSelector)(state => state);
-  const temporaryLoginStatus = navStatus.dmTemporaryLogin;
-  const browserExtensionStatus = navStatus.dmBrowserExtension;
   let routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, " Login Me Now Dashboard is Loading... ");
   if (lmn_admin.home_slug === page) {
     if ("getting-started" === currentEvent) {
@@ -63465,18 +63460,12 @@ function SettingsRoute() {
     } else {
       switch (path) {
         case "browser-extensions":
-          if (browserExtensionStatus) {
-            routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_pages_browser_extensions_BrowserExtensions__WEBPACK_IMPORTED_MODULE_2__["default"], null);
-          }
+          routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_pages_browser_extensions_BrowserExtensions__WEBPACK_IMPORTED_MODULE_2__["default"], null);
           break;
         case "temporary-login":
-          if (temporaryLoginStatus) {
-            routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DashboardApp_pages_welcome_Welcome__WEBPACK_IMPORTED_MODULE_1__["default"], null);
-          }
+          routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DashboardApp_pages_welcome_Welcome__WEBPACK_IMPORTED_MODULE_1__["default"], null);
           break;
         case 'settings':
-          routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_pages_settings_Settings__WEBPACK_IMPORTED_MODULE_3__["default"], null);
-          break;
         default:
           routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_pages_settings_Settings__WEBPACK_IMPORTED_MODULE_3__["default"], null);
           break;

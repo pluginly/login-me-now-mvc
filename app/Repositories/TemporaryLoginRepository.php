@@ -5,6 +5,7 @@ namespace LoginMeNow\App\Repositories;
 use LoginMeNow\App\Helpers\Random;
 use LoginMeNow\App\Helpers\Time;
 use LoginMeNow\App\Helpers\Translator;
+use LoginMeNow\App\Helpers\User;
 
 class TemporaryLoginRepository {
 
@@ -54,7 +55,7 @@ class TemporaryLoginRepository {
 			]
 		);
 
-		\LoginMeNow\Integrations\SimpleHistory\Logs::add( $user->data->ID, "generated a temporary login link" );
+		//\LoginMeNow\Integrations\SimpleHistory\Logs::add( $user->data->ID, "generated a temporary login link" );
 
 		return $token;
 	}
