@@ -63744,7 +63744,7 @@ const BrowserExtensions = () => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
     d: "M12,1A11,11,0,1,0,23,12,11.013,11.013,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9.011,9.011,0,0,1,12,21ZM13,8H11V6h2Zm0,10H11V10h2Z"
   }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    className: "mt-2 input-padding w-full",
+    className: "mt-2 !p-2 input-padding w-full",
     type: "datetime-local",
     name: "expiration",
     id: "expiration",
@@ -65593,7 +65593,7 @@ function Table() {
     htmlFor: "expiration",
     className: "text-[14px] text-[#1E293B] font-bold"
   }, "Edit expiration time"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    className: "mt-2 input-padding w-full",
+    className: "mt-2 !p-2 input-padding w-full",
     type: "datetime-local",
     name: "expiration",
     id: "expiration",
@@ -65740,7 +65740,7 @@ const Welcome = () => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
     d: "M12,1A11,11,0,1,0,23,12,11.013,11.013,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9.011,9.011,0,0,1,12,21ZM13,8H11V6h2Zm0,10H11V10h2Z"
   }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    className: "mt-2 input-padding w-full",
+    className: "mt-2 !p-2 input-padding w-full",
     type: "datetime-local",
     name: "expiration",
     id: "expiration",

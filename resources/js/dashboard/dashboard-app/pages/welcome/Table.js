@@ -530,7 +530,7 @@ function Table() {
                       Edit expiration time
                     </label>
                     <input
-                      className="mt-2 input-padding w-full"
+                      className="mt-2 !p-2 input-padding w-full"
                       type="datetime-local"
                       name="expiration"
                       id="expiration"
