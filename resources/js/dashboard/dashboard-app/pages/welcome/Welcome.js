@@ -64,13 +64,9 @@ const Welcome = () => {
       <MagicLinkPopup />
       <main className="py-[2.43rem]">
         <div className="max-w-3xl mx-auto px-6 lg:max-w-screen-2xl">
-          <h1 className="sr-only"> Login Me Now </h1>
           <div className="grid grid-cols-1 gap-4 items-start lg:grid-cols-12 rounded-md bg-white overflow-hidden shadow-sm p-12">
             <div className="grid grid-cols-1 lg:col-span-7 gap-4 h-full">
               <section aria-labelledby="section-1-title h-full">
-                <h2 className="sr-only" id="section-1-title">
-                  Welcome Banner
-                </h2>
                 <div className="flex flex-col justify-center h-full">
                   <div className="">
                     <Title text="Share dashboard access securly" />
@@ -81,10 +77,7 @@ const Welcome = () => {
                     >
                       <span className="relative z-0 inline-flex flex-col sm:flex-row justify-start w-full">
                         <div>
-                          <label
-                            htmlFor="expiration"
-                            className="text-[16px] text-[#1E293B] font-bold"
-                          >
+                          <label htmlFor="expiration"  className="text-[16px] text-[#1E293B] font-bold">
                             Set expiration time{" "}
                             <Tooltip title="When will this link expire & no loner be accessible">
                               <span>
@@ -127,21 +120,11 @@ const Welcome = () => {
                 </div>
               </section>
             </div>
-            <div className="grid grid-cols-1 lg:col-span-5 gap-4 h-full justify-self-end">
-              {/* <img src={tempSsImg} alt="" /> */}
-            </div>
           </div>
 
           <div className="grid grid-cols-1 gap-[32px] items-start lg:grid-cols-3 lg:gap-[32px] xl:gap-[32px] mt-[32px]">
             {/* Left column */}
-            <div
-              className={classNames(
-                lmn_admin.show_self_branding
-                  ? "lg:col-span-2"
-                  : "lg:col-span-3",
-                "grid grid-cols-1 gap-[32px]"
-              )}
-            >
+            <div className={classNames( 'lg:col-span-2 grid grid-cols-1 gap-[32px]')}  >
               <Table />
             </div>
             {/* Right Column */}

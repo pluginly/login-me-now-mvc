@@ -11,8 +11,29 @@ class TemporaryLoginRepository {
 
 	public $token_key = 'lmn_token';
 
-	public function insert( int $user_id, array $data ): bool {
-		return add_user_meta( $user_id, $this->token_key, $data );
+	public function get_link( int $umeta_id ): string {
+		$result = $this->get( $umeta_id );
+
+		if ( ! $result ) {
+			return __( 'No token found', 'login-me-now' );
+		}
+
+		$meta_value = $result[0]->meta_value ?? null;
+		if ( ! $meta_value ) {
+			return __( 'No token found', 'login-me-now' );
+		}
+
+		$meta_value = maybe_unserialize( $meta_value );
+
+		$user_id = $meta_value['created_by'] ?? 0;
+		$number  = $meta_value['number'] ?? 0;
+		$expire  = $meta_value['expire'] ?? 0;
+
+		$token = Translator::encode( $user_id, $number, $expire, '==' );
+
+		//\LoginMeNow\Integrations\SimpleHistory\Logs::add( $user_id, "generated a temporary login link" );
+
+		return sprintf( '%s%s', admin_url( '/?lmn-token=' ), $token );
 	}
 
 	public function create( int $user_id, int $expiration ) {
@@ -58,6 +79,10 @@ class TemporaryLoginRepository {
 		//\LoginMeNow\Integrations\SimpleHistory\Logs::add( $user->data->ID, "generated a temporary login link" );
 
 		return $token;
+	}
+
+	public function insert( int $user_id, array $data ): bool {
+		return add_user_meta( $user_id, $this->token_key, $data );
 	}
 
 	public function update( int $meta_id, array $value ): bool {

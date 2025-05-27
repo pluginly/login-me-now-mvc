@@ -5,9 +5,9 @@ namespace LoginMeNow\App\Providers;
 use LoginMeNow\App\Contracts\LoginProviderBase;
 use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
 use LoginMeNow\App\Helpers\AjaxCheck;
+use LoginMeNow\App\Helpers\Time;
 use LoginMeNow\App\Http\Controllers\TemporaryLoginController;
 use LoginMeNow\App\Repositories\TemporaryLoginRepository;
-use LoginMeNow\App\Helpers\Time;
 
 class TemporaryLoginServiceProvider implements LoginProviderBase {
 
@@ -177,7 +177,7 @@ class TemporaryLoginServiceProvider implements LoginProviderBase {
 			wp_send_json_error( __( "No meta id provided", 'login-me-now' ) );
 		}
 
-		$link = ( new TemporaryLoginRepository )->get( $umeta_id );
+		$link = ( new TemporaryLoginRepository )->get_link( $umeta_id );
 
 		wp_send_json_success( $link );
 		wp_die();
