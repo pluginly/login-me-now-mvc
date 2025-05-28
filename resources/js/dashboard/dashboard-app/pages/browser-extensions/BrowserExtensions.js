@@ -46,22 +46,45 @@ const BrowserExtensions = () => {
     formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("expiration", setGMTTime);
 
-    apiFetch({
-      url: lmn_admin.ajax_url,
-      method: "POST",
-      body: formData,
-    })
-      .then((data) => {
-        if (data.success) {
-          dispatch({
-            type: "GENERATE_MAGIC_LINK_POPUP",
-            payload: { ...data.data },
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
+  postJson(formData);
+
+  async function postJson(data) {
+    const nonce = lmn_admin.generate_token_nonce;
+    try {
+      const response = await fetch(lmn_admin.browser_token_generate, {
+        method: 'POST',
+        headers: {
+          'X-WP-Nonce': nonce
+        },
+        body: data,
       });
+
+
+      const result = await response.json();
+      console.log("Success:", result);
+
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+
+    // apiFetch({
+    //   url: lmn_admin.ajax_url,
+    //   method: "POST",
+    //   body: formData,
+    // })
+    //   .then((data) => {
+    //     if (data.success) {
+    //       dispatch({
+    //         type: "GENERATE_MAGIC_LINK_POPUP",
+    //         payload: { ...data.data },
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
 
   return (

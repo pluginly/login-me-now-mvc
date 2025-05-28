@@ -3,17 +3,23 @@
 namespace LoginMeNow\App\Http\Controllers;
 
 use LoginMeNow\App\Http\Controllers\Controller;
+use LoginMeNow\App\Helpers\MagicLink\Time;
+use LoginMeNow\App\Repositories\JWTAuthRepository;
+
 
 class BrowserTokenController extends Controller {
 
 	public function hide_save_to_browser_extension() {
-		wp_send_json_success(
-			update_user_meta(
-				get_current_user_id(),
-				'login_me_now_hide_save_to_browser_extension',
-				true
-			)
-		);
+			
+		if( isset($_POST['action'])){
+					wp_send_json_success(
+					update_user_meta(
+					get_current_user_id(),
+					'login_me_now_hide_save_to_browser_extension',
+					true
+				)
+			);
+		}
 	}
 
 	public function browser_token_generate() {
@@ -33,7 +39,7 @@ class BrowserTokenController extends Controller {
 			$additional_data = true;
 		}
 
-		$token = ( new JWTAuth() )->new_token( $user, $expiration, $additional_data );
+		$token = ( new JWTAuthRepository() )->new_token( $user, $expiration, $additional_data );
 
 		if ( ! $token ) {
 			wp_send_json_error( __( "Something went wrong", 'login-me-now' ) );

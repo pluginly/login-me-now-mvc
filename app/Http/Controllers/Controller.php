@@ -2,7 +2,7 @@
 
 namespace LoginMeNow\App\Http\Controllers;
 
-use LoginMeNow\App\LoginProviders\BrowserToken\JWTAuth;
+use LoginMeNow\Repository\App\JWTAuthRepository;
 use LoginMeNow\App\LoginProviders\BrowserToken\OnetimeNumber;
 
 class Controller {

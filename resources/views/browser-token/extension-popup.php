@@ -38,6 +38,7 @@ $html .= sprintf(
 $html .= '</div>';
 $html .= '<a id="lmn-later">' . esc_html__( "Don't show this again", 'login-me-now' ) . '</a>';
 
+
 $html .= '</div>';
 $html .= '</div>';
 echo $html;
@@ -65,9 +66,13 @@ echo $html;
 		});
 
 		async function postJSON(data) {
+			const nonce = document.getElementById('lmnSecurity').dataset.nonce;
 			try {
-				const response = await fetch("<?php echo admin_url( 'admin-ajax.php' ) ?>", {
+				const response = await fetch("<?php echo get_rest_url(null,'login-me-now/login_me_now_hide_save_to_browser_extension') ?>", {
 				method: "POST",
+				 headers: {
+                'X-WP-Nonce': nonce 
+            },
 				body: data,
 			});
 				const result = await response.json();
