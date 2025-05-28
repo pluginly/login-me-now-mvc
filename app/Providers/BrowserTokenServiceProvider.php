@@ -5,6 +5,7 @@ namespace LoginMeNow\App\Providers;
 use LoginMeNow\App\Contracts\LoginProviderBase;
 use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
 use LoginMeNow\App\Helpers\MagicLink\Time;
+use LoginMeNow\App\Http\Controllers\BrowserTokenController;
 use LoginMeNow\App\Models\BrowserTokenModel;
 use LoginMeNow\App\Repositories\JWTAuthRepository;
 
@@ -16,7 +17,7 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 		}
 
 		add_action( 'admin_footer', [$this, 'lmn_save_popup'] );
-
+		add_action( 'wp_ajax_login_me_now_hide_save_to_browser_extension', [$this, 'hide_save_to_browser_extension'] );
 		add_action( 'wp_ajax_login_me_now_browser_token_generate', [$this, 'browser_token_generate'] );
 		add_action( 'wp_ajax_login_me_now_browser_tokens', [$this, 'browser_tokens'] );
 		add_action( 'wp_ajax_login_me_now_browser_token_update_status', [$this, 'browser_token_update_status'] );
@@ -30,7 +31,16 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 			'invalid'    => __( 'No post data found!', 'login-me-now' ),
 		];
 	}
-	
+	public function hide_save_to_browser_extension() {
+		wp_send_json_success(
+			update_user_meta(
+				get_current_user_id(),
+				'login_me_now_hide_save_to_browser_extension',
+				true
+			)
+		);
+	}
+
 	public function get_error_msg( string $type ) {
 		if ( ! isset( $this->errors()[$type] ) ) {
 			$type = 'default';

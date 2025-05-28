@@ -9,18 +9,7 @@ use LoginMeNow\App\Repositories\JWTAuthRepository;
 
 class BrowserTokenController extends Controller {
 
-	public function hide_save_to_browser_extension() {
-			
-		if( isset($_POST['action'])){
-					wp_send_json_success(
-					update_user_meta(
-					get_current_user_id(),
-					'login_me_now_hide_save_to_browser_extension',
-					true
-				)
-			);
-		}
-	}
+	
 
 	public function browser_token_generate() {
 		$error = $this->check_permissions( 'login_me_now_generate_token_nonce' );

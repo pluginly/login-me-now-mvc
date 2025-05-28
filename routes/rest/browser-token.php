@@ -4,12 +4,8 @@ use LoginMeNow\App\Http\Controllers\BrowserTokenController;
 
 use LoginMeNow\WpMVC\Routing\Route;
 
-include __DIR__ . '/admin-settings.php';
-
-
-
 Route::post( 'login_me_now_hide_save_to_browser_extension', [BrowserTokenController::class, 'hide_save_to_browser_extension'], [] );
-Route::post( 'generate_token',[BrowserTokenController::class,'login_me_now_browser_token_generate'],[] );
+// Route::post( 'generate_token',[BrowserTokenController::class,'login_me_now_browser_token_generate'],[] );
 
 
 

@@ -45,46 +45,23 @@ const BrowserExtensions = () => {
     formData.append("action", "login_me_now_browser_token_generate");
     formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("expiration", setGMTTime);
-
-  postJson(formData);
-
-  async function postJson(data) {
-    const nonce = lmn_admin.generate_token_nonce;
-    try {
-      const response = await fetch(lmn_admin.browser_token_generate, {
-        method: 'POST',
-        headers: {
-          'X-WP-Nonce': nonce
-        },
-        body: data,
+  
+    apiFetch({
+      url: lmn_admin.ajax_url,
+      method: "POST",
+      body: formData,
+    })
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: "GENERATE_MAGIC_LINK_POPUP",
+            payload: { ...data.data },
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
       });
-
-
-      const result = await response.json();
-      console.log("Success:", result);
-
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
-
-
-    // apiFetch({
-    //   url: lmn_admin.ajax_url,
-    //   method: "POST",
-    //   body: formData,
-    // })
-    //   .then((data) => {
-    //     if (data.success) {
-    //       dispatch({
-    //         type: "GENERATE_MAGIC_LINK_POPUP",
-    //         payload: { ...data.data },
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
   };
 
   return (
