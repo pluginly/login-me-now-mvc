@@ -1,6 +1,6 @@
 <?php
 
-namespace LoginMeNow\App\Helpers\MagicLink;
+namespace LoginMeNow\App\Helpers;
 
 class Random {
 

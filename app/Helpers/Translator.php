@@ -1,6 +1,6 @@
 <?php
 
-namespace LoginMeNow\App\Helpers\MagicLink;
+namespace LoginMeNow\App\Helpers;
 
 class Translator {
 	public static function encode( string...$items ): string{

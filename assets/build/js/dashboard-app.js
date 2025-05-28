@@ -63438,12 +63438,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _DashboardApp_pages_welcome_Welcome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @DashboardApp/pages/welcome/Welcome */ "./resources/js/dashboard/dashboard-app/pages/welcome/Welcome.js");
 /* harmony import */ var _pages_browser_extensions_BrowserExtensions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/browser-extensions/BrowserExtensions */ "./resources/js/dashboard/dashboard-app/pages/browser-extensions/BrowserExtensions.js");
 /* harmony import */ var _pages_settings_Settings__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/settings/Settings */ "./resources/js/dashboard/dashboard-app/pages/settings/Settings.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
 
 
 
@@ -63451,13 +63449,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function SettingsRoute() {
-  const query = new URLSearchParams((0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useLocation)().search);
+  const query = new URLSearchParams((0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useLocation)().search);
   const page = query.get("page");
   const path = query.get("path");
   const currentEvent = query.get("event");
-  const navStatus = (0,react_redux__WEBPACK_IMPORTED_MODULE_4__.useSelector)(state => state);
-  const temporaryLoginStatus = navStatus.dmTemporaryLogin;
-  const browserExtensionStatus = navStatus.dmBrowserExtension;
   let routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, " Login Me Now Dashboard is Loading... ");
   if (lmn_admin.home_slug === page) {
     if ("getting-started" === currentEvent) {
@@ -63465,18 +63460,12 @@ function SettingsRoute() {
     } else {
       switch (path) {
         case "browser-extensions":
-          if (browserExtensionStatus) {
-            routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_pages_browser_extensions_BrowserExtensions__WEBPACK_IMPORTED_MODULE_2__["default"], null);
-          }
+          routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_pages_browser_extensions_BrowserExtensions__WEBPACK_IMPORTED_MODULE_2__["default"], null);
           break;
         case "temporary-login":
-          if (temporaryLoginStatus) {
-            routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DashboardApp_pages_welcome_Welcome__WEBPACK_IMPORTED_MODULE_1__["default"], null);
-          }
+          routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DashboardApp_pages_welcome_Welcome__WEBPACK_IMPORTED_MODULE_1__["default"], null);
           break;
         case 'settings':
-          routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_pages_settings_Settings__WEBPACK_IMPORTED_MODULE_3__["default"], null);
-          break;
         default:
           routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_pages_settings_Settings__WEBPACK_IMPORTED_MODULE_3__["default"], null);
           break;
@@ -63755,7 +63744,7 @@ const BrowserExtensions = () => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
     d: "M12,1A11,11,0,1,0,23,12,11.013,11.013,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9.011,9.011,0,0,1,12,21ZM13,8H11V6h2Zm0,10H11V10h2Z"
   }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    className: "mt-2 input-padding w-full",
+    className: "mt-2 !p-2 input-padding w-full",
     type: "datetime-local",
     name: "expiration",
     id: "expiration",
@@ -65008,21 +64997,24 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+// Global cache for token links
+const loginLinkCache = new Map();
 function MyCopyToClipboard({
   umeta_id
 }) {
   const [clipboardState, setClipboardState] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const [tokenLink, setTokenLink] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("Nothing to copy");
+  const [tokenLink, setTokenLink] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("Loading...");
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    fetchLoginLink(umeta_id);
-  }, [umeta_id]);
-  const handleCopyClick = () => {
-    setClipboardState(true);
-    setTimeout(() => {
-      setClipboardState(false);
-    }, 2000);
-  };
-  const fetchLoginLink = umeta_id => {
+    if (!umeta_id) return;
+
+    // Use cached link if available
+    if (loginLinkCache.has(umeta_id)) {
+      setTokenLink(loginLinkCache.get(umeta_id));
+      return;
+    }
+
+    // Otherwise fetch it
     const formData = new window.FormData();
     formData.append("action", "login_me_now_login_link_get_link");
     formData.append("security", lmn_admin.generate_token_nonce);
@@ -65033,11 +65025,19 @@ function MyCopyToClipboard({
       body: formData
     }).then(data => {
       if (data.success) {
+        loginLinkCache.set(umeta_id, data.data); // cache it
         setTokenLink(data.data);
       }
     }).catch(error => {
-      console.log(error);
+      console.error("Error fetching login link:", error);
+      setTokenLink("Error");
     });
+  }, [umeta_id]);
+  const handleCopyClick = () => {
+    setClipboardState(true);
+    setTimeout(() => {
+      setClipboardState(false);
+    }, 2000);
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_copy_to_clipboard__WEBPACK_IMPORTED_MODULE_1__.CopyToClipboard, {
     text: tokenLink,
@@ -65051,8 +65051,8 @@ function MyCopyToClipboard({
     "aria-hidden": "true",
     className: "h-5 w-5 text-[#50d71e]"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
     d: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
   })) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"], {
     title: "Copy"
@@ -65065,8 +65065,8 @@ function MyCopyToClipboard({
     "aria-hidden": "true",
     className: "h-5 w-5"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
     d: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
   })))));
 }
@@ -65604,7 +65604,7 @@ function Table() {
     htmlFor: "expiration",
     className: "text-[14px] text-[#1E293B] font-bold"
   }, "Edit expiration time"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    className: "mt-2 input-padding w-full",
+    className: "mt-2 !p-2 input-padding w-full",
     type: "datetime-local",
     name: "expiration",
     id: "expiration",
@@ -65712,18 +65712,13 @@ const Welcome = () => {
     className: "py-[2.43rem]"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "max-w-3xl mx-auto px-6 lg:max-w-screen-2xl"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", {
-    className: "sr-only"
-  }, " Login Me Now "), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "grid grid-cols-1 gap-4 items-start lg:grid-cols-12 rounded-md bg-white overflow-hidden shadow-sm p-12"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "grid grid-cols-1 lg:col-span-7 gap-4 h-full"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
     "aria-labelledby": "section-1-title h-full"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
-    className: "sr-only",
-    id: "section-1-title"
-  }, "Welcome Banner"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "flex flex-col justify-center h-full"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: ""
@@ -65751,7 +65746,7 @@ const Welcome = () => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
     d: "M12,1A11,11,0,1,0,23,12,11.013,11.013,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9.011,9.011,0,0,1,12,21ZM13,8H11V6h2Zm0,10H11V10h2Z"
   }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    className: "mt-2 input-padding w-full",
+    className: "mt-2 !p-2 input-padding w-full",
     type: "datetime-local",
     name: "expiration",
     id: "expiration",
@@ -65763,12 +65758,10 @@ const Welcome = () => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     type: "submit",
     className: "sm:inline-flex items-center p-[14px] border border-transparent text-[12px] font-medium rounded-md shadow-sm text-white bg-lmn focus-visible:bg-lmn-hover hover:bg-lmn-hover focus:outline-none mr-4 mb-2 sm:mb-0"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Generate login link", "login-me-now"))))))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "grid grid-cols-1 lg:col-span-5 gap-4 h-full justify-self-end"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Generate login link", "login-me-now")))))))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "grid grid-cols-1 gap-[32px] items-start lg:grid-cols-3 lg:gap-[32px] xl:gap-[32px] mt-[32px]"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: classNames(lmn_admin.show_self_branding ? "lg:col-span-2" : "lg:col-span-3", "grid grid-cols-1 gap-[32px]")
+    className: classNames('lg:col-span-2 grid grid-cols-1 gap-[32px]')
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Table__WEBPACK_IMPORTED_MODULE_5__["default"], null)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "grid grid-cols-1 gap-[32px]"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_NeedSupport__WEBPACK_IMPORTED_MODULE_6__["default"], {
