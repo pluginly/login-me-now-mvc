@@ -12,8 +12,10 @@ use LoginMeNow\App\Helpers\User;
 use WP_Error;
 use WP_REST_Request;
 use WP_User;
-use \Firebase\JWT\JWT;
-use \Firebase\JWT\Key;
+// use \Firebase\JWT\JWT;
+// use \Firebase\JWT\Key;
+use LoginMeNow\Firebase\JWT\JWT;
+use LoginMeNow\Firebase\JWT\Key;
 
 /**
  * The JWT Handling Class
@@ -121,7 +123,7 @@ use Singleton;
 		$Btm = new BrowserTokenModel();
 		 $Btm->insert( $user->data->ID, $rand_number, $expire, 'active' );
 
-		\LoginMeNow\Integrations\SimpleHistory\Logs::add( $user->data->ID, "generated a token for browser extension (Token ID: {$rand_number})" );
+		// \LoginMeNow\Integrations\SimpleHistory\Logs::add( $user->data->ID, "generated a token for browser extension (Token ID: {$rand_number})" );
 
 		if ( ! $additional_data ) {
 			return $token;
