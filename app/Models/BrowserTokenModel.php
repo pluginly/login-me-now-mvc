@@ -2,8 +2,8 @@
 
 namespace LoginMeNow\App\Models;
 
-use LoginMeNow\Common\Singleton;
-use LoginMeNow\App\Helpers\MagicLink\Time;
+use LoginMeNow\App\Helpers\Singleton ;
+use LoginMeNow\App\Helpers\Time;
 use LoginMeNow\App\Helpers\User;
 
 class BrowserTokenModel {

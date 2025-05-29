@@ -4,13 +4,13 @@ namespace LoginMeNow\App\Providers;
 
 use LoginMeNow\App\Contracts\LoginProviderBase;
 use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
-use LoginMeNow\App\Helpers\MagicLink\Time;
-use LoginMeNow\App\Http\Controllers\BrowserTokenController;
+use LoginMeNow\App\Helpers\Time;
 use LoginMeNow\App\Models\BrowserTokenModel;
 use LoginMeNow\App\Repositories\JWTAuthRepository;
+use LoginMeNow\App\Helpers\Singleton;
 
 class BrowserTokenServiceProvider implements LoginProviderBase {
-
+	use Singleton;
 	public function boot() {
 		if ( ! is_admin() ) {
 			return;
@@ -77,9 +77,7 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 		if ( ! empty( $_POST['additional_data'] ) ) {
 			$additional_data = true;
 		}
-
-		$token = ( new JWTAuthRepository() )->new_token( $user, $expiration, $additional_data );
-
+		$token = JWTAuthRepository::init()->new_token( $user, $expiration, $additional_data );
 		if ( ! $token ) {
 			wp_send_json_error( __( "Something went wrong", 'login-me-now' ) );
 		}
