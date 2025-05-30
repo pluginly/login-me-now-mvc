@@ -1,26 +1,28 @@
 <?php
 
-
 namespace LoginMeNow\App\Repositories;
 
+
 use Exception;
-use LoginMeNow\Common\Singleton;
+use LoginMeNow\App\Helpers\Singleton;
 use LoginMeNow\App\Models\BrowserTokenModel;
-use LoginMeNow\App\Helpers\MagicLink\Random;
-use LoginMeNow\App\Helpers\MagicLink\Time;
+use LoginMeNow\App\Helpers\Random;
+use LoginMeNow\App\Helpers\Time;
 use LoginMeNow\App\Helpers\User;
 use WP_Error;
 use WP_REST_Request;
 use WP_User;
-use \Firebase\JWT\JWT;
-use \Firebase\JWT\Key;
+// use \Firebase\JWT\JWT;
+// use \Firebase\JWT\Key;
+use LoginMeNow\Firebase\JWT\JWT;
+use LoginMeNow\Firebase\JWT\Key;
 
 /**
  * The JWT Handling Class
  */
 class JWTAuthRepository {
 	// use Singleton;
-
+use Singleton;
 	/**
 	 * Supported algorithms to sign the token
 	 */
@@ -121,7 +123,7 @@ class JWTAuthRepository {
 		$Btm = new BrowserTokenModel();
 		 $Btm->insert( $user->data->ID, $rand_number, $expire, 'active' );
 
-		\LoginMeNow\Integrations\SimpleHistory\Logs::add( $user->data->ID, "generated a token for browser extension (Token ID: {$rand_number})" );
+		// \LoginMeNow\Integrations\SimpleHistory\Logs::add( $user->data->ID, "generated a token for browser extension (Token ID: {$rand_number})" );
 
 		if ( ! $additional_data ) {
 			return $token;
