@@ -196,9 +196,9 @@ class TemporaryLoginRepository {
 		}
 
 		foreach ( $user_meta as $token ) {
-			$_number = (int) $token['number'] ?? 0;
-			$_expire = (int) $token['expire'] ?? 0;
-			$status  = $token['status'] ?? '';
+			$_number = (int) isset( $token['number'] ) ? $token['number'] : 0;
+			$_expire = (int) isset( $token['expire'] ) ? $token['expire'] : 0;
+			$status  = isset( $token['status'] ) ? $token['status'] : '';
 
 			if (
 				$_number === $number
