@@ -5,24 +5,40 @@ namespace LoginMeNow\App\Providers;
 use LoginMeNow\App\Contracts\LoginProviderBase;
 use LoginMeNow\App\DTO\ProviderSettingsFieldsDTO;
 use LoginMeNow\App\Helpers\Time;
+use LoginMeNow\App\Http\Controllers\BrowserTokenController;
 use LoginMeNow\App\Models\BrowserTokenModel;
 use LoginMeNow\App\Repositories\JWTAuthRepository;
-use LoginMeNow\App\Helpers\Singleton;
 
 class BrowserTokenServiceProvider implements LoginProviderBase {
-	use Singleton;
+
 	public function boot() {
-		if ( ! is_admin() ) {
-			return;
+
+		( new BrowserTokenController )->listen_link();
+
+		if ( is_admin() ) {
+			add_action( 'admin_footer', [$this, 'lmn_save_popup'] );
 		}
 
-		add_action( 'admin_footer', [$this, 'lmn_save_popup'] );
 		add_action( 'wp_ajax_login_me_now_hide_save_to_browser_extension', [$this, 'hide_save_to_browser_extension'] );
+		
 		add_action( 'wp_ajax_login_me_now_browser_token_generate', [$this, 'browser_token_generate'] );
 		add_action( 'wp_ajax_login_me_now_browser_tokens', [$this, 'browser_tokens'] );
 		add_action( 'wp_ajax_login_me_now_browser_token_update_status', [$this, 'browser_token_update_status'] );
 		add_action( 'wp_ajax_login_me_now_browser_token_drop', [$this, 'browser_token_drop'] );
 	}
+
+	public static function get_key(): string {
+		return 'browser_extension';
+	}
+
+	public static function get_name(): string {
+		return 'Browser Extension';
+	}
+
+	public static function get_button(): string {
+		return '';
+	}
+
 	public function errors() {
 		return [
 			'permission' => __( 'Sorry, you are not allowed to do this operation.', 'login-me-now' ),
@@ -31,6 +47,7 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 			'invalid'    => __( 'No post data found!', 'login-me-now' ),
 		];
 	}
+
 	public function hide_save_to_browser_extension() {
 		wp_send_json_success(
 			update_user_meta(
@@ -49,18 +66,6 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 		return $this->errors()[$type];
 	}
 
-	public static function get_key(): string {
-		return 'browser_extension';
-	}
-
-	public static function get_name(): string {
-		return 'Browser Extension';
-	}
-
-	public static function get_button(): string {
-		return '';
-	}
-	
 	public function browser_token_generate() {
 		$error = $this->check_permissions( 'login_me_now_generate_token_nonce' );
 		if ( $error ) {
@@ -77,7 +82,7 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 		if ( ! empty( $_POST['additional_data'] ) ) {
 			$additional_data = true;
 		}
-		$token = JWTAuthRepository::init()->new_token( $user, $expiration, $additional_data );
+		$token = ( new JWTAuthRepository )->new_token( $user, $expiration, $additional_data );
 		if ( ! $token ) {
 			wp_send_json_error( __( "Something went wrong", 'login-me-now' ) );
 		}
@@ -85,7 +90,7 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 		wp_send_json_success(
 			[
 				'success' => true,
-				'message' => __( 'Browser Token Successfully Generated', 'login-me-now' ),
+				'message' => __( 'Successfully Generated', 'login-me-now' ),
 				'link'    => $token,
 			]
 		);
@@ -101,7 +106,7 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 
 		$offset = (int) $_POST['offset'] ?? 0;
 		$limit  = (int) $_POST['limit'] ?? 10;
-		$tokens = BrowserTokenModel::init()->get_all( $offset, $limit );
+		$tokens = ( new BrowserTokenModel )->get_all( $offset, $limit );
 
 		if ( ! is_array( $tokens ) || ! $tokens ) {
 			wp_send_json_error( __( "Something went wrong", 'login-me-now' ) );
@@ -110,6 +115,7 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 		wp_send_json_success( $tokens );
 		wp_die();
 	}
+
 	public function browser_token_update_status() {
 		$error = $this->check_permissions( 'login_me_now_generate_token_nonce', 'manage_options' );
 		if ( $error ) {
@@ -123,7 +129,7 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 			wp_send_json_error( __( "No meta id provided", 'login-me-now' ) );
 		}
 
-		$updated = BrowserTokenModel::init()->update( $token_id, $status );
+		$updated = ( new BrowserTokenModel )->update( $token_id, $status );
 
 		wp_send_json_success( $updated );
 		wp_die();
@@ -140,7 +146,7 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 			wp_send_json_error( __( "No meta id provided", 'login-me-now' ) );
 		}
 
-		$deleted = BrowserTokenModel::init()->drop( $token_id );
+		$deleted = ( new BrowserTokenModel )->drop( $token_id );
 
 		wp_send_json_success( $deleted );
 		wp_die();
@@ -172,6 +178,7 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 	public function lmn_save_popup() {
 		include_once login_me_now_dir( 'resources/views/browser-token/extension-popup.php' );
 	}
+
 	private function check_permissions( string $ref, string $cap = null ) {
 		$response_data = ['message' => $this->get_error_msg( 'permission' )];
 

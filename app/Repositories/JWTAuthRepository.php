@@ -2,27 +2,19 @@
 
 namespace LoginMeNow\App\Repositories;
 
-
 use Exception;
-use LoginMeNow\App\Helpers\Singleton;
-use LoginMeNow\App\Models\BrowserTokenModel;
 use LoginMeNow\App\Helpers\Random;
 use LoginMeNow\App\Helpers\Time;
 use LoginMeNow\App\Helpers\User;
+use LoginMeNow\App\Models\BrowserTokenModel;
+use LoginMeNow\Firebase\JWT\JWT;
+use LoginMeNow\Firebase\JWT\Key;
 use WP_Error;
 use WP_REST_Request;
 use WP_User;
-// use \Firebase\JWT\JWT;
-// use \Firebase\JWT\Key;
-use LoginMeNow\Firebase\JWT\JWT;
-use LoginMeNow\Firebase\JWT\Key;
 
-/**
- * The JWT Handling Class
- */
 class JWTAuthRepository {
-	// use Singleton;
-use Singleton;
+
 	/**
 	 * Supported algorithms to sign the token
 	 */
@@ -121,7 +113,7 @@ use Singleton;
 
 		/** Store the token ref in user meta using the $issuedAt, so we can block the token if needed */
 		$Btm = new BrowserTokenModel();
-		 $Btm->insert( $user->data->ID, $rand_number, $expire, 'active' );
+		$Btm->insert( $user->data->ID, $rand_number, $expire, 'active' );
 
 		// \LoginMeNow\Integrations\SimpleHistory\Logs::add( $user->data->ID, "generated a token for browser extension (Token ID: {$rand_number})" );
 
@@ -144,34 +136,7 @@ use Singleton;
 		return apply_filters( 'login_me_now_token_before_dispatch', $data, $user );
 	}
 
-	/**
-	 * Main validation function
-	 *
-	 * This function is used by the /token/validate endpoint and
-	 * by our middleware.
-	 *
-	 * The function take the token and try to decode it and validated it.
-	 *
-	 * @param WP_REST_Request $request
-	 * @param bool|string $token
-	 * @param string $return_type | token, data, user | default data
-	 */
-	public function validate_token( WP_REST_Request $request, $return_type = 'data' ) {
-		$req_token = $request->get_param( 'token' );
-
-		/**
-		 * if the format is not valid return an error.
-		 */
-		if ( ! $req_token ) {
-			return new WP_Error(
-				'login_me_now_invalid_token',
-				'Invalid token.',
-				[
-					'status' => 403,
-				]
-			);
-		}
-
+	public function validate_token( string $req_token, $return_type = 'data' ) {
 		/** Get the Secret Key */
 		$secret_key = $this->get_secret_key();
 		if ( ! $secret_key ) {
@@ -224,7 +189,7 @@ use Singleton;
 			}
 
 			$token_id     = ! empty( $token->data->tid ) ? $token->data->tid : false;
-			$token_status = BrowserTokenModel::init()->status( $token_id );
+			$token_status = ( new BrowserTokenModel )->status( $token_id );
 			if ( ! $token_status || 'active' !== $token_status ) {
 				return $token_status;
 			}
@@ -238,7 +203,7 @@ use Singleton;
 
 			if ( 'user_id' === $return_type ) {
 				$message = __( "logged in using browser extension (ID: {$token_id})", 'login-me-now' );
-				\LoginMeNow\Integrations\SimpleHistory\Logs::add( $token->data->user->id, $message );
+				//\LoginMeNow\Integrations\SimpleHistory\Logs::add( $token->data->user->id, $message );
 
 				return (int) $token->data->user->id;
 			}

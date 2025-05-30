@@ -2,14 +2,126 @@
 
 namespace LoginMeNow\App\Http\Controllers;
 
+use LoginMeNow\App\DTO\LoginDTO;
+use LoginMeNow\App\DTO\UserDataDTO;
+use LoginMeNow\App\Helpers\Time;
+use LoginMeNow\App\Helpers\Transient;
 use LoginMeNow\App\Http\Controllers\Controller;
-use LoginMeNow\App\Helpers\MagicLink\Time;
+use LoginMeNow\App\Repositories\AccountRepository;
+use LoginMeNow\App\Repositories\BrowserTokenRepository;
 use LoginMeNow\App\Repositories\JWTAuthRepository;
-
+use LoginMeNow\WpMVC\RequestValidator\Validator;
+use LoginMeNow\WpMVC\Routing\Response;
+use WP_REST_Request;
 
 class BrowserTokenController extends Controller {
 
-	
+	public function generate_token( Validator $validator, WP_REST_Request $request ) {
+		$validator->validate(
+			[
+				'username'   => 'required|string',
+				'password'   => 'required|string',
+				'expiration' => 'required|string',
+			]
+		);
+
+		$username   = $request->get_param( 'username' );
+		$password   = $request->get_param( 'password' );
+		$expiration = $request->get_param( 'expiration' );
+
+		return Response::send(
+			[
+				'token' => ( new BrowserTokenRepository() )->generate_token( $username, $password, $expiration ),
+			]
+		);
+	}
+
+	public function validate_token( Validator $validator, WP_REST_Request $request ) {
+		$validator->validate(
+			[
+				'token' => 'required|string',
+			]
+		);
+
+		$token = $request->get_param( 'token' );
+
+		return Response::send(
+			( new BrowserTokenRepository() )->validate_token( $token, 'data' ),
+		);
+	}
+
+	public function generate_link( Validator $validator, WP_REST_Request $request ) {
+		$validator->validate(
+			[
+				'token' => 'required|string',
+			]
+		);
+
+		$token = $request->get_param( 'token' );
+
+		try {
+
+			$data = ( new BrowserTokenRepository() )->generate_link( $token );
+
+			return Response::send(
+				[
+					'success' => true,
+					'data'    => $data,
+				]
+			);
+		} catch ( \Throwable $th ) {
+			return Response::send(
+				[
+					'success' => false,
+					'message' => $th->getMessage(),
+				]
+			);
+		}
+	}
+
+	public function listen_link() {
+		if ( ! isset( $_GET['lmn'] ) ) {
+			return;
+		}
+
+		if ( empty( $_GET['lmn'] ) ) {
+			$this->render_error(
+				__( 'Token not provided', 'login-me-now' ),
+				__( 'Request a new access link in order to obtain dashboard access', 'login-me-now' )
+			);
+		}
+
+		$key     = sanitize_text_field( $_GET['lmn'] );
+		$user_id = Transient::get( $key );
+
+		if ( ! $user_id ) {
+			$this->render_error(
+				__( 'Invalid token or user not found', 'login-me-now' ),
+				__( 'Request a new access link in order to obtain dashboard access', 'login-me-now' )
+			);
+		}
+
+		Transient::delete( $key );
+
+		$redirect_uri = apply_filters( 'login_me_now_browser_token_login_redirect_uri', admin_url() );
+
+		$dto = ( new LoginDTO() )
+			->set_user_id( $user_id )
+			->set_redirect_uri( $redirect_uri )
+			->set_redirect_return( false )
+			->set_channel_name( 'browser_token' );
+
+		$userDataDTO = new UserDataDTO();
+
+		( new AccountRepository() )->login( $dto, $userDataDTO );
+	}
+
+	private function render_error( $title, $message ) {
+		ob_start();
+		include login_me_now_dir( 'resources/views/browser-token/error-message.php' );
+		echo ob_get_clean();
+		exit;
+	}
 
 	public function browser_token_generate() {
 		$error = $this->check_permissions( 'login_me_now_generate_token_nonce' );
@@ -37,7 +149,7 @@ class BrowserTokenController extends Controller {
 		wp_send_json_success(
 			[
 				'success' => true,
-				'message' => __( 'Browser Token Successfully Generated', 'login-me-now' ),
+				'message' => __( 'Successfully Generated', 'login-me-now' ),
 				'link'    => $token,
 			]
 		);

@@ -2,12 +2,10 @@
 
 namespace LoginMeNow\App\Models;
 
-use LoginMeNow\App\Helpers\Singleton ;
 use LoginMeNow\App\Helpers\Time;
 use LoginMeNow\App\Helpers\User;
 
 class BrowserTokenModel {
-	use Singleton;
 
 	private $wpdb;
 	private $table;
