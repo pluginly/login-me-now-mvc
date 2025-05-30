@@ -10,7 +10,6 @@ use LoginMeNow\App\Models\BrowserTokenModel;
 use LoginMeNow\Firebase\JWT\JWT;
 use LoginMeNow\Firebase\JWT\Key;
 use WP_Error;
-use WP_REST_Request;
 use WP_User;
 
 class JWTAuthRepository {
@@ -20,44 +19,6 @@ class JWTAuthRepository {
 	 */
 	private array $supported_algorithms = ['HS256', 'HS384', 'HS512', 'RS256', 'RS384', 'RS512', 'ES256', 'ES384', 'ES512', 'PS256', 'PS384', 'PS512'];
 
-	/**
-	 * Get the user and password in the request body and generate a JWT
-	 */
-	public function generate_token( WP_REST_Request $request ) {
-		$username   = $request->get_param( 'username' );
-		$password   = $request->get_param( 'password' );
-		$expiration = $request->get_param( 'expiration' );
-
-		/** Try to authenticate the user with the passed credentials*/
-		$user = wp_authenticate( $username, $password );
-
-		/** If the authentication fails return an error*/
-		if ( is_wp_error( $user ) ) {
-			$error_code = $user->get_error_code();
-
-			return new WP_Error(
-				'[login_me_now] ' . $error_code,
-				$user->get_error_message( $error_code ),
-				[
-					'status' => 403,
-				]
-			);
-		}
-
-		$legacy = ['1', '7', '31', '365', '1000'];
-		// #important Remove this legacy code in v1.2.0
-		if ( in_array( $expiration, $legacy, true ) ) {
-			$expiration = "{$expiration} days";
-		}
-
-		$expiration = Time::convert_timestamp( $expiration );
-
-		return $this->new_token( $user, $expiration );
-	}
-
-	/**
-	 * Generate a JWT
-	 */
 	public function new_token( WP_User $user, int $expiration, bool $additional_data = true ) {
 		$secret_key = $this->get_secret_key();
 
@@ -125,13 +86,11 @@ class JWTAuthRepository {
 		$data = [
 			'token'             => $token,
 			'site_url'          => get_bloginfo( 'url' ),
-			'site_icon_url'     => get_site_icon_url( 'url' ),
+			'site_icon_url'     => get_site_icon_url(),
 			'user_email'        => $user->data->user_email,
 			'user_nicename'     => $user->data->user_nicename,
 			'user_display_name' => $user->data->display_name,
 		];
-
-		/** Let the user modify the data before send it back */
 
 		return apply_filters( 'login_me_now_token_before_dispatch', $data, $user );
 	}

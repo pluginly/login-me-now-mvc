@@ -4,7 +4,6 @@ import apiFetch from "@wordpress/api-fetch";
 import DeleteIcon from "../../../../icons/DeleteIcon";
 import Pause from "../../../../icons/Pause";
 import Play from "../../../../icons/Play";
-import CloseIcon from "../../../../icons/CloseIcon";
 import trash from "../../../../images/trash.png";
 import { Tooltip } from "antd";
 
@@ -14,10 +13,7 @@ function Table() {
   const [offset, setOffset] = useState(0);
   const [modal, setModal] = useState(false);
   const [deleteItem, setDeleteItem] = useState(null);
-  const [extendItem, setExtendItem] = useState(null);
-  const [extendModal, setExtendModal] = useState(false);
   const [currentTimestamp, setCurrentTimestamp] = useState(0);
-  const [loadMoreDisabled, setLoadMoreDisabled] = useState("enabled");
   const [loading, setLoading] = useState("loading");
   const [dataLength, setDataLength] = useState(null);
   const deletedItemRefs = useRef({});
@@ -27,21 +23,19 @@ function Table() {
   const loadMore = () => {
     setOffset(offset + 20);
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_browser_tokens");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("offset", offset);
     formData.append("limit", 21);
 
     apiFetch({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/browser-token/tokens",
       method: "POST",
       body: formData,
     })
       .then((data) => {
         setLoading("loadingOver");
         if (data.success) {
-          setDataLength(data.data.length);
-          setTokensData(tokensData.concat(data.data));
+          setDataLength(data.tokens.length);
+          setTokensData(tokensData.concat(data.tokens));
         } else {
           setLoadMoreDisabled("disabled");
         }
@@ -72,8 +66,6 @@ function Table() {
   // token delete operation
   const handleDeleteClick = (key) => {
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_browser_token_drop");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("token_id", key);
 
     const itemToDelete = tokensData.find((item) => item.token_id === key);
@@ -82,7 +74,7 @@ function Table() {
     }
 
     apiFetch({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/browser-token/drop",
       method: "POST",
       body: formData,
     })
@@ -116,13 +108,11 @@ function Table() {
   const handleStatus = (key, updateStatus) => {
     const newStatus = updateStatus === "pause" ? "active" : "pause";
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_browser_token_update_status");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("token_id", key);
     formData.append("status", newStatus);
 
     apiFetch({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/browser-token/update-status",
       method: "POST",
       body: formData,
     })
@@ -158,18 +148,6 @@ function Table() {
     return () => clearInterval(interval);
   }, []);
   const truncatedTimestamp = Number(currentTimestamp.toString().slice(0, -3));
-
-  // datetime-local previous date disabled
-  const getCurrentDateTime = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = `${now.getMonth() + 1}`.padStart(2, "0");
-    const day = `${now.getDate()}`.padStart(2, "0");
-    const hours = `${now.getHours()}`.padStart(2, "0");
-    const minutes = `${now.getMinutes()}`.padStart(2, "0");
-
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
-  };
 
   return (
     <section aria-labelledby="section-1-title h-full">

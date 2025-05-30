@@ -39,23 +39,20 @@ const BrowserExtensions = () => {
     e.stopPropagation();
 
     const setGMTTime = new Date(setTime);
-    // const expiration = Math.floor(setGMTTime.getTime() / 1000);
-
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_browser_token_generate");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("expiration", setGMTTime);
   
     apiFetch({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/browser-token/generate",
       method: "POST",
       body: formData,
     })
       .then((data) => {
+        console.log('data : ', data );
         if (data.success) {
           dispatch({
             type: "GENERATE_MAGIC_LINK_POPUP",
-            payload: { ...data.data },
+            payload: { ...data },
           });
         }
       })

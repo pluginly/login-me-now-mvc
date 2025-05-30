@@ -63678,22 +63678,19 @@ const BrowserExtensions = () => {
     e.preventDefault();
     e.stopPropagation();
     const setGMTTime = new Date(setTime);
-    // const expiration = Math.floor(setGMTTime.getTime() / 1000);
-
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_browser_token_generate");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("expiration", setGMTTime);
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/browser-token/generate",
       method: "POST",
       body: formData
     }).then(data => {
+      console.log('data : ', data);
       if (data.success) {
         dispatch({
           type: "GENERATE_MAGIC_LINK_POPUP",
           payload: {
-            ...data.data
+            ...data
           }
         });
       }
@@ -63837,7 +63834,7 @@ __webpack_require__.r(__webpack_exports__);
 function MagicLinkPopup() {
   const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
   const magicLinkPopup = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(state => state.magicLinkPopup);
-  const copyText = magicLinkPopup.link;
+  const copyText = magicLinkPopup.token;
   const [copied, setCopied] = React.useState(false);
   const onCopy = React.useCallback(() => {
     setCopied(true);
@@ -63891,7 +63888,7 @@ function MagicLinkPopup() {
     text: copyText
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("code", {
     className: "text-[16px] font-medium break-all"
-  }, magicLinkPopup.link)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, magicLinkPopup.token)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "absolute top-0 right-[-13%]"
   }, copied ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_heroicons_react_outline__WEBPACK_IMPORTED_MODULE_6__["default"], {
     className: "h-5 w-5 text-[#50d71e]",
@@ -63942,10 +63939,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _icons_DeleteIcon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../icons/DeleteIcon */ "./resources/js/icons/DeleteIcon.js");
 /* harmony import */ var _icons_Pause__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../icons/Pause */ "./resources/js/icons/Pause.js");
 /* harmony import */ var _icons_Play__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../icons/Play */ "./resources/js/icons/Play.js");
-/* harmony import */ var _icons_CloseIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../icons/CloseIcon */ "./resources/js/icons/CloseIcon.js");
-/* harmony import */ var _images_trash_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../images/trash.png */ "./resources/js/images/trash.png");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/tooltip/index.js");
-
+/* harmony import */ var _images_trash_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../images/trash.png */ "./resources/js/images/trash.png");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/tooltip/index.js");
 
 
 
@@ -63961,10 +63956,7 @@ function Table() {
   const [offset, setOffset] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
   const [modal, setModal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [deleteItem, setDeleteItem] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const [extendItem, setExtendItem] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const [extendModal, setExtendModal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [currentTimestamp, setCurrentTimestamp] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
-  const [loadMoreDisabled, setLoadMoreDisabled] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("enabled");
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("loading");
   const [dataLength, setDataLength] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const deletedItemRefs = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)({});
@@ -63974,19 +63966,17 @@ function Table() {
   const loadMore = () => {
     setOffset(offset + 20);
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_browser_tokens");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("offset", offset);
     formData.append("limit", 21);
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/browser-token/tokens",
       method: "POST",
       body: formData
     }).then(data => {
       setLoading("loadingOver");
       if (data.success) {
-        setDataLength(data.data.length);
-        setTokensData(tokensData.concat(data.data));
+        setDataLength(data.tokens.length);
+        setTokensData(tokensData.concat(data.tokens));
       } else {
         setLoadMoreDisabled("disabled");
       }
@@ -64014,15 +64004,13 @@ function Table() {
   // token delete operation
   const handleDeleteClick = key => {
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_browser_token_drop");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("token_id", key);
     const itemToDelete = tokensData.find(item => item.token_id === key);
     if (!itemToDelete) {
       return;
     }
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/browser-token/drop",
       method: "POST",
       body: formData
     }).then(data => {
@@ -64045,12 +64033,10 @@ function Table() {
   const handleStatus = (key, updateStatus) => {
     const newStatus = updateStatus === "pause" ? "active" : "pause";
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_browser_token_update_status");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("token_id", key);
     formData.append("status", newStatus);
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/browser-token/update-status",
       method: "POST",
       body: formData
     }).then(data => {
@@ -64078,17 +64064,6 @@ function Table() {
     return () => clearInterval(interval);
   }, []);
   const truncatedTimestamp = Number(currentTimestamp.toString().slice(0, -3));
-
-  // datetime-local previous date disabled
-  const getCurrentDateTime = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = `${now.getMonth() + 1}`.padStart(2, "0");
-    const day = `${now.getDate()}`.padStart(2, "0");
-    const hours = `${now.getHours()}`.padStart(2, "0");
-    const minutes = `${now.getMinutes()}`.padStart(2, "0");
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
-  };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
     "aria-labelledby": "section-1-title h-full"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
@@ -64108,7 +64083,7 @@ function Table() {
     className: "sticky top-[-1px] bg-[#f1f1f1]"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", {
     className: "border-x-[1px] border-b-[1px] border-[#e2e8f0] py-[10px] px-[5px] text-[14px]"
-  }, "User", " ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }, "User", " ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
     title: "Which user has generated this token for browser extension"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
     className: "inline-block",
@@ -64121,7 +64096,7 @@ function Table() {
     d: "M12,1A11,11,0,1,0,23,12,11.013,11.013,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9.011,9.011,0,0,1,12,21ZM13,8H11V6h2Zm0,10H11V10h2Z"
   })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", {
     className: "border-x-[1px] border-b-[1px] border-[#e2e8f0] py-[10px] px-[5px] text-[14px]"
-  }, "ID", " ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }, "ID", " ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
     title: "Browser extension token ID for activity log reference"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
     className: "inline-block",
@@ -64181,7 +64156,7 @@ function Table() {
     className: "text-center text-[13px] font-[500] border-x-[1px] border-[#e2e8f0] py-[10px] px-[5px]"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "flex justify-around"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
     title: "Delete"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "cursor-pointer",
@@ -64191,14 +64166,14 @@ function Table() {
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     onClick: () => handleStatus(item.token_id, item.status),
     className: `${truncatedTimestamp >= item.expire ? "cursor-not-allowed pointer-events-none" : ""}`
-  }, item.status === "pause" || truncatedTimestamp >= item.expire ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }, item.status === "pause" || truncatedTimestamp >= item.expire ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
     title: "Inactive"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "cursor-pointer"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_icons_Pause__WEBPACK_IMPORTED_MODULE_4__["default"], {
     size: 18,
     color: truncatedTimestamp >= item.expire ? "#D11A2A" : "#2192c0"
-  }))) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }))) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
     title: "Active"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "cursor-pointer disable"
@@ -64217,7 +64192,7 @@ function Table() {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "flex justify-center"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: _images_trash_png__WEBPACK_IMPORTED_MODULE_7__,
+    src: _images_trash_png__WEBPACK_IMPORTED_MODULE_6__,
     alt: ""
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", {
     className: "text-center text-[#000000] my-4 text-[20px] leading-[32px] mb-[34px]"

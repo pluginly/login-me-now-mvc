@@ -12,7 +12,7 @@ export default function MagicLinkPopup() {
 
 	const magicLinkPopup = useSelector( ( state ) => state.magicLinkPopup );
 
-	const copyText = magicLinkPopup.link;
+	const copyText = magicLinkPopup.token;
 	const [copied, setCopied] = React.useState(false);
 	const onCopy = React.useCallback(() => {
 		setCopied(true);
@@ -55,7 +55,7 @@ export default function MagicLinkPopup() {
 										<p className="text-[16px] font-medium text-gray-900">{ magicLinkPopup.message }</p>
 										<div className='mt-5 relative'>
 											<CopyToClipboard onCopy={onCopy} text={copyText}>
-												<code className='text-[16px] font-medium break-all'>{ magicLinkPopup.link }</code>										
+												<code className='text-[16px] font-medium break-all'>{ magicLinkPopup.token }</code>										
 											</CopyToClipboard>
 											
 											<div className='absolute top-0 right-[-13%]'>
