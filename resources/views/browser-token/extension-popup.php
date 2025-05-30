@@ -38,7 +38,6 @@ $html .= sprintf(
 $html .= '</div>';
 $html .= '<a id="lmn-later">' . esc_html__( "Don't show this again", 'login-me-now' ) . '</a>';
 
-
 $html .= '</div>';
 $html .= '</div>';
 echo $html;
@@ -67,10 +66,16 @@ echo $html;
 
 		async function postJSON(data) {
 			try {
-				const response = await fetch("<?php echo admin_url( 'admin-ajax.php' ) ?>", {
-				method: "POST",
-				body: data,
-			});
+				const response = await fetch(
+					"<?php echo esc_url_raw( rest_url( 'login-me-now/browser-token/hide-popup' ) ) ?>",
+					{
+						method: "POST",
+						body: data,
+						headers: {
+							'X-WP-Nonce': '<?php echo wp_create_nonce( 'wp_rest' ) ?>',
+						},
+					}
+				);
 				const result = await response.json();
 			} catch (error) {
 				console.error("Error:", error);

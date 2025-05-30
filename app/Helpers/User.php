@@ -88,7 +88,7 @@ class User {
 		}
 	}
 
-	private static function includes() {
+	public static function includes() {
 		if ( ! function_exists( 'get_userdata' ) ) {
 			require_once ABSPATH . WPINC . '/pluggable.php';
 		}

@@ -29,33 +29,6 @@ class BrowserTokenServiceProvider implements LoginProviderBase {
 		return '';
 	}
 
-	public function errors() {
-		return [
-			'permission' => __( 'Sorry, you are not allowed to do this operation.', 'login-me-now' ),
-			'nonce'      => __( 'Nonce validation failed', 'login-me-now' ),
-			'default'    => __( 'Sorry, something went wrong.', 'login-me-now' ),
-			'invalid'    => __( 'No post data found!', 'login-me-now' ),
-		];
-	}
-
-	public function hide_save_to_browser_extension() {
-		wp_send_json_success(
-			update_user_meta(
-				get_current_user_id(),
-				'login_me_now_hide_save_to_browser_extension',
-				true
-			)
-		);
-	}
-
-	public function get_error_msg( string $type ) {
-		if ( ! isset( $this->errors()[$type] ) ) {
-			$type = 'default';
-		}
-
-		return $this->errors()[$type];
-	}
-
 	/**
 	 * Settings Fields to be displayed on the settings page
 	 */

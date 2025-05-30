@@ -237,4 +237,17 @@ class BrowserTokenController extends Controller {
 			);
 		}
 	}
+
+	public function admin_hide_popup() {
+
+		error_log( 'get_current_user_id() = : ' . print_r( get_current_user_id(), true ) );
+
+		wp_send_json_success(
+			update_user_meta(
+				get_current_user_id(),
+				'login_me_now_hide_save_to_browser_extension',
+				true
+			)
+		);
+	}
 }
