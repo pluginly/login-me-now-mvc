@@ -267,7 +267,7 @@ class BrowserTokenController extends Controller {
 			$additional_data = true;
 		}
 
-		$token = ( new JWTAuthRepository nlbjkl;;;() )->new_token( $user, $expiration, $additional_data );
+		$token = ( new JWTAuthRepository() )->new_token( $user, $expiration, $additional_data );
 
 		if ( ! $token ) {
 			wp_send_json_error( __( "Something went wrong", 'login-me-now' ) );
