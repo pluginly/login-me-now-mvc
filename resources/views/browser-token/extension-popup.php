@@ -17,7 +17,7 @@ $html = '<div class="lmnExt" id="lmnExt">';
 $html .= sprintf( '<div id="lmnEmail" data-email="%s"></div>', esc_attr( $current_user->user_email ) );
 $html .= sprintf( '<div id="lmnSiteUrl" data-siteurl="%s"></div>', esc_url( get_site_url() ) );
 $html .= sprintf( '<div id="lmnSecurity" data-security="%s"></div>', esc_attr( wp_create_nonce( 'login_me_now_generate_token_nonce' ) ) );
-$html .= sprintf( '<div id="lmnAjaxUrl" data-ajaxurl="%s"></div>', esc_url( admin_url( 'admin-ajax.php' ) ) );
+$html .= sprintf( '<div id="lmnAjaxUrl" data-ajaxurl="%s"></div>', esc_url( site_url( 'login-me-now/browser-token/generate' ) ) );
 
 $html .= '<div class="popup-content-wrapper">';
 $html .= '<div style="display: flex; align-items: center; justify-content: center">';

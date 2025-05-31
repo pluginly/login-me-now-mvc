@@ -250,4 +250,37 @@ class BrowserTokenController extends Controller {
 			)
 		);
 	}
+
+	public function ajax_generate_token() {
+		if ( ! check_ajax_referer( 'login_me_now_generate_token_nonce', 'security', false ) ) {
+			wp_send_json_error( __( 'Invaild nonce', 'login-me-now' ) );
+		}
+
+		$user_id = get_current_user_id();
+		$user    = get_userdata( $user_id );
+
+		$date_string = (string) isset( $_POST['expiration'] ) ? sanitize_text_field( $_POST['expiration'] ) : null;
+		$expiration  = Time::convert_timestamp( $date_string );
+
+		$additional_data = false;
+		if ( ! empty( $_POST['additional_data'] ) ) {
+			$additional_data = true;
+		}
+
+		$token = ( new JWTAuthRepository nlbjkl;;;() )->new_token( $user, $expiration, $additional_data );
+
+		if ( ! $token ) {
+			wp_send_json_error( __( "Something went wrong", 'login-me-now' ) );
+		}
+
+		wp_send_json_success(
+			[
+				'success' => true,
+				'message' => __( 'Browser Token Successfully Generated', 'login-me-now' ),
+				'link'    => $token,
+			]
+		);
+
+		wp_die();
+	}
 }
