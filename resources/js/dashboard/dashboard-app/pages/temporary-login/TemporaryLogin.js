@@ -1,7 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 import { useDispatch } from "react-redux";
-import MagicLinkPopup from "./MagicLinkPopup";
+import TemporaryLoginPopup from "./TemporaryLoginPopup";
 import Table from "./Table";
 import NeedSupport from "../components/NeedSupport";
 import Title from "../components/Title";
@@ -11,7 +11,7 @@ import { Tooltip } from "antd";
 
 const classNames = (...classes) => classes.filter(Boolean).join(" ");
 
-const Welcome = () => {
+const TemporaryLogin = () => {
   const dispatch = useDispatch();
   const [setTime, setSetTime] = useState();
   // datetime-local previous date disabled
@@ -37,12 +37,10 @@ const Welcome = () => {
     e.stopPropagation();
     const setGMTTime = new Date(setTime);
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_login_link_generate");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("expiration", setGMTTime);
 
     apiFetch({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/temporary-login/generate",
       method: "POST",
       body: formData,
     })
@@ -61,7 +59,7 @@ const Welcome = () => {
 
   return (
     <>
-      <MagicLinkPopup />
+      <TemporaryLoginPopup />
       <main className="py-[2.43rem]">
         <div className="max-w-3xl mx-auto px-6 lg:max-w-screen-2xl">
           <div className="grid grid-cols-1 gap-4 items-start lg:grid-cols-12 rounded-md bg-white overflow-hidden shadow-sm p-12">
@@ -165,4 +163,4 @@ const Welcome = () => {
   );
 };
 
-export default Welcome;
+export default TemporaryLogin;

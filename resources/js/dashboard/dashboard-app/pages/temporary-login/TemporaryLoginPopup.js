@@ -8,7 +8,7 @@ import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 
 
-export default function MagicLinkPopup() {
+export default function TemporaryLoginPopup() {
 
 	const dispatch = useDispatch();
 

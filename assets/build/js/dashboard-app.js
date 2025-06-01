@@ -63439,7 +63439,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
-/* harmony import */ var _DashboardApp_pages_welcome_Welcome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @DashboardApp/pages/welcome/Welcome */ "./resources/js/dashboard/dashboard-app/pages/welcome/Welcome.js");
+/* harmony import */ var _DashboardApp_pages_temporary_login_TemporaryLogin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @DashboardApp/pages/temporary-login/TemporaryLogin */ "./resources/js/dashboard/dashboard-app/pages/temporary-login/TemporaryLogin.js");
 /* harmony import */ var _pages_browser_extensions_BrowserExtensions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/browser-extensions/BrowserExtensions */ "./resources/js/dashboard/dashboard-app/pages/browser-extensions/BrowserExtensions.js");
 /* harmony import */ var _pages_settings_Settings__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/settings/Settings */ "./resources/js/dashboard/dashboard-app/pages/settings/Settings.js");
 
@@ -63463,7 +63463,7 @@ function SettingsRoute() {
           routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_pages_browser_extensions_BrowserExtensions__WEBPACK_IMPORTED_MODULE_2__["default"], null);
           break;
         case "temporary-login":
-          routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DashboardApp_pages_welcome_Welcome__WEBPACK_IMPORTED_MODULE_1__["default"], null);
+          routePage = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DashboardApp_pages_temporary_login_TemporaryLogin__WEBPACK_IMPORTED_MODULE_1__["default"], null);
           break;
         case 'settings':
         default:
@@ -64949,10 +64949,10 @@ function Settings() {
 
 /***/ }),
 
-/***/ "./resources/js/dashboard/dashboard-app/pages/welcome/CopyToClipboard.js":
-/*!*******************************************************************************!*\
-  !*** ./resources/js/dashboard/dashboard-app/pages/welcome/CopyToClipboard.js ***!
-  \*******************************************************************************/
+/***/ "./resources/js/dashboard/dashboard-app/pages/temporary-login/CopyToClipboard.js":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/dashboard/dashboard-app/pages/temporary-login/CopyToClipboard.js ***!
+  \***************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -64991,17 +64991,16 @@ function MyCopyToClipboard({
 
     // Otherwise fetch it
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_login_link_get_link");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("umeta_id", umeta_id);
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/temporary-login/get-link",
       method: "POST",
       body: formData
     }).then(data => {
+      console.log('data : ', data);
       if (data.success) {
-        loginLinkCache.set(umeta_id, data.data); // cache it
-        setTokenLink(data.data);
+        loginLinkCache.set(umeta_id, data.link); // cache it
+        setTokenLink(data.link);
       }
     }).catch(error => {
       console.error("Error fetching login link:", error);
@@ -65049,131 +65048,10 @@ function MyCopyToClipboard({
 
 /***/ }),
 
-/***/ "./resources/js/dashboard/dashboard-app/pages/welcome/MagicLinkPopup.js":
-/*!******************************************************************************!*\
-  !*** ./resources/js/dashboard/dashboard-app/pages/welcome/MagicLinkPopup.js ***!
-  \******************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ MagicLinkPopup)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _headlessui_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @headlessui/react */ "./node_modules/@headlessui/react/dist/components/transitions/transition.js");
-/* harmony import */ var _heroicons_react_outline__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @heroicons/react/outline */ "./node_modules/@heroicons/react/outline/esm/CheckCircleIcon.js");
-/* harmony import */ var _heroicons_react_outline__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @heroicons/react/outline */ "./node_modules/@heroicons/react/outline/esm/ClipboardCheckIcon.js");
-/* harmony import */ var _heroicons_react_outline__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @heroicons/react/outline */ "./node_modules/@heroicons/react/outline/esm/ClipboardIcon.js");
-/* harmony import */ var _heroicons_react_solid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @heroicons/react/solid */ "./node_modules/@heroicons/react/solid/esm/XIcon.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_copy_to_clipboard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-copy-to-clipboard */ "./node_modules/react-copy-to-clipboard/lib/index.js");
-/* harmony import */ var react_copy_to_clipboard__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_copy_to_clipboard__WEBPACK_IMPORTED_MODULE_3__);
-
-
-
-
-
-
-
-
-function MagicLinkPopup() {
-  const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
-  const magicLinkPopup = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(state => state.magicLinkPopup);
-  const copyText = magicLinkPopup.link;
-  const [copied, setCopied] = React.useState(false);
-  const onCopy = React.useCallback(() => {
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-    }, 2000);
-  }, []);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if ('' !== magicLinkPopup) {
-      setTimeout(() => {
-        dispatch({
-          type: 'GENERATE_MAGIC_LINK_POPUP',
-          payload: ''
-        });
-      }, 120000);
-    }
-  }, [magicLinkPopup]);
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    "aria-live": "assertive",
-    className: "fixed inset-10 z-10 flex px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "w-full h-full flex flex-col items-center space-y-4 justify-center"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_headlessui_react__WEBPACK_IMPORTED_MODULE_4__.Transition, {
-    show: '' === magicLinkPopup ? false : true,
-    as: react__WEBPACK_IMPORTED_MODULE_0__.Fragment,
-    enter: "transform ease-out duration-300 transition",
-    enterFrom: "translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2",
-    enterTo: "translate-y-0 opacity-100 sm:translate-x-0",
-    leave: "transition ease-in duration-100",
-    leaveFrom: "opacity-100",
-    leaveTo: "opacity-0"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "w-full h-full z-1 before:absolute before:left-0 before:top-0 before:content-[''] before:w-full before:h-full"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "p-4 max-w-sm w-full bg-white rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden z-[2] absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] shadow-[0_0_100px_200px_rgba(0,0,0,0.20)]"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "flex items-start"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "flex-shrink-0"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_heroicons_react_outline__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    className: "h-6 w-6 text-green-400",
-    "aria-hidden": "true"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "ml-3 w-0 flex-1 pt-0.5"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
-    className: "text-[16px] font-medium text-gray-900"
-  }, magicLinkPopup.message), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "mt-5 relative"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_copy_to_clipboard__WEBPACK_IMPORTED_MODULE_3__.CopyToClipboard, {
-    onCopy: onCopy,
-    text: copyText
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("code", {
-    className: "text-[16px] font-medium break-all"
-  }, magicLinkPopup.link)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "absolute top-0 right-[-13%]"
-  }, copied ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_heroicons_react_outline__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    className: "h-5 w-5 text-[#50d71e]",
-    "aria-hidden": "true"
-  }) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_copy_to_clipboard__WEBPACK_IMPORTED_MODULE_3__.CopyToClipboard, {
-    onCopy: onCopy,
-    text: copyText
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_heroicons_react_outline__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    className: "h-5 w-5",
-    "aria-hidden": "true"
-  }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "ml-4 flex-shrink-0 flex"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    className: "bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
-    onClick: () => {
-      dispatch({
-        type: 'GENERATE_MAGIC_LINK_POPUP',
-        payload: ''
-      });
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "sr-only"
-  }, " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Close ', 'login-me-now'), " "), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_heroicons_react_solid__WEBPACK_IMPORTED_MODULE_8__["default"], {
-    className: "h-5 w-5",
-    "aria-hidden": "true"
-  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
-    className: "text-center text-[14px] mt-[20px]"
-  }, "You can directly login to admin panel using this link")))))));
-}
-
-/***/ }),
-
-/***/ "./resources/js/dashboard/dashboard-app/pages/welcome/Table.js":
-/*!*********************************************************************!*\
-  !*** ./resources/js/dashboard/dashboard-app/pages/welcome/Table.js ***!
-  \*********************************************************************/
+/***/ "./resources/js/dashboard/dashboard-app/pages/temporary-login/Table.js":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/dashboard/dashboard-app/pages/temporary-login/Table.js ***!
+  \*****************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -65193,7 +65071,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _icons_Play__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../icons/Play */ "./resources/js/icons/Play.js");
 /* harmony import */ var _icons_CloseIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../icons/CloseIcon */ "./resources/js/icons/CloseIcon.js");
 /* harmony import */ var _images_trash_png__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../images/trash.png */ "./resources/js/images/trash.png");
-/* harmony import */ var _CopyToClipboard__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./CopyToClipboard */ "./resources/js/dashboard/dashboard-app/pages/welcome/CopyToClipboard.js");
+/* harmony import */ var _CopyToClipboard__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./CopyToClipboard */ "./resources/js/dashboard/dashboard-app/pages/temporary-login/CopyToClipboard.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/tooltip/index.js");
 
 
@@ -65227,19 +65105,17 @@ function Table() {
   // load data operation
   const loadMore = () => {
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_login_link_tokens");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("offset", offset);
     formData.append("limit", 21);
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/temporary-login/tokens",
       method: "POST",
       body: formData
     }).then(data => {
       setLoading("loadingOver");
       if (data.success) {
-        setDataLength(data.data.length);
-        setTokensData(tokensData.concat(data.data));
+        setDataLength(data.tokens.length);
+        setTokensData(tokensData.concat(data.tokens));
         setOffset(offset + 10);
       } else {
         setDisabledLoadMore("disabled");
@@ -65268,15 +65144,13 @@ function Table() {
   // token delete operation
   const handleDeleteClick = key => {
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_login_link_drop");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("umeta_id", key);
     const itemToDelete = tokensData.find(item => item.umeta_id === key);
     if (!itemToDelete) {
       return;
     }
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/temporary-login/drop",
       method: "POST",
       body: formData
     }).then(data => {
@@ -65334,12 +65208,10 @@ function Table() {
     e.preventDefault();
     const extendDate = new Date(extendTime);
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_login_link_extend_time");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("umeta_id", key);
     formData.append("expiration", extendDate);
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/temporary-login/extend-time",
       method: "POST",
       body: formData
     }).then(data => {
@@ -65374,12 +65246,11 @@ function Table() {
   const handleStatus = (key, updateStatus) => {
     const newStatus = updateStatus === "pause" ? "active" : "pause";
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_login_link_update_status");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("umeta_id", key);
     formData.append("status", newStatus);
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
       url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/temporary-login/update-status",
       method: "POST",
       body: formData
     }).then(data => {
@@ -65431,7 +65302,7 @@ function Table() {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
     className: "sr-only",
     id: "section-1-title "
-  }, "Login Links"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, "Temporary Login"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "p-[2rem] rounded-md bg-white overflow-hidden shadow-sm flex flex-col justify-center h-full"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "relative w-full flex flex-col sm:flex-row sm:items-center sm:justify-between"
@@ -65603,10 +65474,10 @@ function Table() {
 
 /***/ }),
 
-/***/ "./resources/js/dashboard/dashboard-app/pages/welcome/Welcome.js":
-/*!***********************************************************************!*\
-  !*** ./resources/js/dashboard/dashboard-app/pages/welcome/Welcome.js ***!
-  \***********************************************************************/
+/***/ "./resources/js/dashboard/dashboard-app/pages/temporary-login/TemporaryLogin.js":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/dashboard/dashboard-app/pages/temporary-login/TemporaryLogin.js ***!
+  \**************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -65621,8 +65492,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _MagicLinkPopup__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./MagicLinkPopup */ "./resources/js/dashboard/dashboard-app/pages/welcome/MagicLinkPopup.js");
-/* harmony import */ var _Table__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Table */ "./resources/js/dashboard/dashboard-app/pages/welcome/Table.js");
+/* harmony import */ var _TemporaryLoginPopup__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TemporaryLoginPopup */ "./resources/js/dashboard/dashboard-app/pages/temporary-login/TemporaryLoginPopup.js");
+/* harmony import */ var _Table__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Table */ "./resources/js/dashboard/dashboard-app/pages/temporary-login/Table.js");
 /* harmony import */ var _components_NeedSupport__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/NeedSupport */ "./resources/js/dashboard/dashboard-app/pages/components/NeedSupport.js");
 /* harmony import */ var _components_Title__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/Title */ "./resources/js/dashboard/dashboard-app/pages/components/Title.js");
 /* harmony import */ var _components_SubTitle__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/SubTitle */ "./resources/js/dashboard/dashboard-app/pages/components/SubTitle.js");
@@ -65639,7 +65510,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const classNames = (...classes) => classes.filter(Boolean).join(" ");
-const Welcome = () => {
+const TemporaryLogin = () => {
   const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_3__.useDispatch)();
   const [setTime, setSetTime] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
   // datetime-local previous date disabled
@@ -65663,11 +65534,9 @@ const Welcome = () => {
     e.stopPropagation();
     const setGMTTime = new Date(setTime);
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_login_link_generate");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("expiration", setGMTTime);
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/temporary-login/generate",
       method: "POST",
       body: formData
     }).then(data => {
@@ -65683,7 +65552,7 @@ const Welcome = () => {
       console.log(error);
     });
   };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_MagicLinkPopup__WEBPACK_IMPORTED_MODULE_4__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("main", {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_TemporaryLoginPopup__WEBPACK_IMPORTED_MODULE_4__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("main", {
     className: "py-[2.43rem]"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "max-w-3xl mx-auto px-6 lg:max-w-screen-2xl"
@@ -65763,7 +65632,128 @@ const Welcome = () => {
     link: "https://wordpress.org/support/plugin/login-me-now/"
   }))))));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Welcome);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TemporaryLogin);
+
+/***/ }),
+
+/***/ "./resources/js/dashboard/dashboard-app/pages/temporary-login/TemporaryLoginPopup.js":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/dashboard/dashboard-app/pages/temporary-login/TemporaryLoginPopup.js ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ TemporaryLoginPopup)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _headlessui_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @headlessui/react */ "./node_modules/@headlessui/react/dist/components/transitions/transition.js");
+/* harmony import */ var _heroicons_react_outline__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @heroicons/react/outline */ "./node_modules/@heroicons/react/outline/esm/CheckCircleIcon.js");
+/* harmony import */ var _heroicons_react_outline__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @heroicons/react/outline */ "./node_modules/@heroicons/react/outline/esm/ClipboardCheckIcon.js");
+/* harmony import */ var _heroicons_react_outline__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @heroicons/react/outline */ "./node_modules/@heroicons/react/outline/esm/ClipboardIcon.js");
+/* harmony import */ var _heroicons_react_solid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @heroicons/react/solid */ "./node_modules/@heroicons/react/solid/esm/XIcon.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_copy_to_clipboard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-copy-to-clipboard */ "./node_modules/react-copy-to-clipboard/lib/index.js");
+/* harmony import */ var react_copy_to_clipboard__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_copy_to_clipboard__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+
+
+
+function TemporaryLoginPopup() {
+  const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
+  const magicLinkPopup = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(state => state.magicLinkPopup);
+  const copyText = magicLinkPopup.link;
+  const [copied, setCopied] = React.useState(false);
+  const onCopy = React.useCallback(() => {
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if ('' !== magicLinkPopup) {
+      setTimeout(() => {
+        dispatch({
+          type: 'GENERATE_MAGIC_LINK_POPUP',
+          payload: ''
+        });
+      }, 120000);
+    }
+  }, [magicLinkPopup]);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    "aria-live": "assertive",
+    className: "fixed inset-10 z-10 flex px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "w-full h-full flex flex-col items-center space-y-4 justify-center"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_headlessui_react__WEBPACK_IMPORTED_MODULE_4__.Transition, {
+    show: '' === magicLinkPopup ? false : true,
+    as: react__WEBPACK_IMPORTED_MODULE_0__.Fragment,
+    enter: "transform ease-out duration-300 transition",
+    enterFrom: "translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2",
+    enterTo: "translate-y-0 opacity-100 sm:translate-x-0",
+    leave: "transition ease-in duration-100",
+    leaveFrom: "opacity-100",
+    leaveTo: "opacity-0"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "w-full h-full z-1 before:absolute before:left-0 before:top-0 before:content-[''] before:w-full before:h-full"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "p-4 max-w-sm w-full bg-white rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden z-[2] absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] shadow-[0_0_100px_200px_rgba(0,0,0,0.20)]"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "flex items-start"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "flex-shrink-0"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_heroicons_react_outline__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    className: "h-6 w-6 text-green-400",
+    "aria-hidden": "true"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ml-3 w-0 flex-1 pt-0.5"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "text-[16px] font-medium text-gray-900"
+  }, magicLinkPopup.message), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "mt-5 relative"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_copy_to_clipboard__WEBPACK_IMPORTED_MODULE_3__.CopyToClipboard, {
+    onCopy: onCopy,
+    text: copyText
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("code", {
+    className: "text-[16px] font-medium break-all"
+  }, magicLinkPopup.link)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "absolute top-0 right-[-13%]"
+  }, copied ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_heroicons_react_outline__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    className: "h-5 w-5 text-[#50d71e]",
+    "aria-hidden": "true"
+  }) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_copy_to_clipboard__WEBPACK_IMPORTED_MODULE_3__.CopyToClipboard, {
+    onCopy: onCopy,
+    text: copyText
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_heroicons_react_outline__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    className: "h-5 w-5",
+    "aria-hidden": "true"
+  }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ml-4 flex-shrink-0 flex"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+    onClick: () => {
+      dispatch({
+        type: 'GENERATE_MAGIC_LINK_POPUP',
+        payload: ''
+      });
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "sr-only"
+  }, " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Close ', 'login-me-now'), " "), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_heroicons_react_solid__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    className: "h-5 w-5",
+    "aria-hidden": "true"
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "text-center text-[14px] mt-[20px]"
+  }, "You can directly login to admin panel using this link")))))));
+}
 
 /***/ }),
 

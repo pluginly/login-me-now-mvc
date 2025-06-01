@@ -21,19 +21,17 @@ function MyCopyToClipboard({ umeta_id }) {
 
     // Otherwise fetch it
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_login_link_get_link");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("umeta_id", umeta_id);
 
     apiFetch({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/temporary-login/get-link",
       method: "POST",
       body: formData,
     })
       .then((data) => {
         if (data.success) {
-          loginLinkCache.set(umeta_id, data.data); // cache it
-          setTokenLink(data.data);
+          loginLinkCache.set(umeta_id, data.link); // cache it
+          setTokenLink(data.link);
         }
       })
       .catch((error) => {

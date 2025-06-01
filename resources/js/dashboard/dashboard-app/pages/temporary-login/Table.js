@@ -30,21 +30,19 @@ function Table() {
   // load data operation
   const loadMore = () => {
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_login_link_tokens");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("offset", offset);
     formData.append("limit", 21);
 
     apiFetch({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/temporary-login/tokens",
       method: "POST",
       body: formData,
     })
       .then((data) => {
         setLoading("loadingOver");
         if (data.success) {
-          setDataLength(data.data.length);
-          setTokensData(tokensData.concat(data.data));
+          setDataLength(data.tokens.length);
+          setTokensData(tokensData.concat(data.tokens));
           setOffset(offset + 10);
         } else {
           setDisabledLoadMore("disabled");
@@ -76,8 +74,6 @@ function Table() {
   // token delete operation
   const handleDeleteClick = (key) => {
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_login_link_drop");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("umeta_id", key);
 
     const itemToDelete = tokensData.find((item) => item.umeta_id === key);
@@ -86,7 +82,7 @@ function Table() {
     }
 
     apiFetch({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/temporary-login/drop",
       method: "POST",
       body: formData,
     })
@@ -169,13 +165,11 @@ function Table() {
     const extendDate = new Date(extendTime);
 
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_login_link_extend_time");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("umeta_id", key);
     formData.append("expiration", extendDate);
 
     apiFetch({
-      url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/temporary-login/extend-time",
       method: "POST",
       body: formData,
     })
@@ -231,13 +225,12 @@ function Table() {
   const handleStatus = (key, updateStatus) => {
     const newStatus = updateStatus === "pause" ? "active" : "pause";
     const formData = new window.FormData();
-    formData.append("action", "login_me_now_login_link_update_status");
-    formData.append("security", lmn_admin.generate_token_nonce);
     formData.append("umeta_id", key);
     formData.append("status", newStatus);
 
     apiFetch({
       url: lmn_admin.ajax_url,
+      url: lmn_admin.rest_args.root + "/temporary-login/update-status",
       method: "POST",
       body: formData,
     })
@@ -296,7 +289,7 @@ function Table() {
   return (
     <section aria-labelledby="section-1-title h-full">
       <h2 className="sr-only" id="section-1-title ">
-        Login Links
+        Temporary Login
       </h2>
       <div className="p-[2rem] rounded-md bg-white overflow-hidden shadow-sm flex flex-col justify-center h-full">
         <div className="relative w-full flex flex-col sm:flex-row sm:items-center sm:justify-between">

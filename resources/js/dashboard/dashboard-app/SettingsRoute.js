@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import Welcome from "@DashboardApp/pages/welcome/Welcome";
+import TemporaryLogin from "@DashboardApp/pages/temporary-login/TemporaryLogin";
 import BrowserExtensions from "./pages/browser-extensions/BrowserExtensions";
 import Settings from './pages/settings/Settings';
 
@@ -21,7 +21,7 @@ function SettingsRoute() {
             routePage = <BrowserExtensions />;
           break;
         case "temporary-login":
-            routePage = <Welcome />;
+            routePage = <TemporaryLogin />;
           break;
         case 'settings':
         default:
