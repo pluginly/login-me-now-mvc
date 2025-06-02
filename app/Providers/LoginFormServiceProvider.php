@@ -137,7 +137,7 @@ class LoginFormServiceProvider implements Provider {
 
 		$fields[] = [
 			'title'         => 'Enter your license key',
-			'description'   => "An active license key is needed to unlock all the pro features and receive automatic plugin updates. Don't have a license key? <a href='https://pluginly.com/login-me-now-pro/' target='_blank'>Get it here</a>",
+			'description'   => "An active license key is needed to unlock all the pro features and receive automatic plugin updates. Don't have a license key? <a href='https://pluginly.co/login-me-now-pro/' target='_blank'>Get it here</a>",
 			'key'           => 'lmn_pro_lic',
 			'previous_data' => SettingsRepository::get( 'lmn_pro_lic', '' ),
 			'type'          => 'text',

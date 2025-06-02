@@ -33,6 +33,8 @@ final class LoginMeNow {
 	}
 
 	public function load() {
+		register_activation_hook( __FILE__, [$this, 'on_activation'] );
+
 		$application = App::instance();
 
 		$application->boot( __FILE__, __DIR__ );
@@ -50,6 +52,10 @@ final class LoginMeNow {
 				do_action( 'after_load_login_me_now' );
 			}
 		);
+	}
+
+	public function on_activation() {
+		new LoginMeNow\App\Setup\Activation();
 	}
 }
 
