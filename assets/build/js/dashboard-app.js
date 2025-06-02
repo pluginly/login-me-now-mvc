@@ -63209,6 +63209,19 @@ window.astWpMenuClassChange = function (path) {
 
 /***/ }),
 
+/***/ "./resources/js/dashboard/custom-css/global.css":
+/*!******************************************************!*\
+  !*** ./resources/js/dashboard/custom-css/global.css ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/js/dashboard/dashboard-app/MainNav.js":
 /*!*********************************************************!*\
   !*** ./resources/js/dashboard/dashboard-app/MainNav.js ***!
@@ -64997,7 +65010,6 @@ function MyCopyToClipboard({
       method: "POST",
       body: formData
     }).then(data => {
-      console.log('data : ', data);
       if (data.success) {
         loginLinkCache.set(umeta_id, data.link); // cache it
         setTokenLink(data.link);
@@ -65540,11 +65552,12 @@ const TemporaryLogin = () => {
       method: "POST",
       body: formData
     }).then(data => {
+      console.log('data : ', data);
       if (data.success) {
         dispatch({
           type: "GENERATE_MAGIC_LINK_POPUP",
           payload: {
-            ...data.data
+            ...data
           }
         });
       }
@@ -66739,10 +66752,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_all_config_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/all-config.scss */ "./resources/js/dashboard/common/all-config.scss");
 /* harmony import */ var _common_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./common/common */ "./resources/js/dashboard/common/common.js");
 /* harmony import */ var _common_common__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_common_common__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _DashboardApp_SettingsWrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @DashboardApp/SettingsWrap */ "./resources/js/dashboard/dashboard-app/SettingsWrap.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _Admin_store_globalDataStore__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @Admin/store/globalDataStore */ "./resources/js/dashboard/store/globalDataStore.js");
-/* harmony import */ var _Utils_setInitialState__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @Utils/setInitialState */ "./resources/js/dashboard/utils/setInitialState.js");
+/* harmony import */ var _custom_css_global_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./custom-css/global.css */ "./resources/js/dashboard/custom-css/global.css");
+/* harmony import */ var _DashboardApp_SettingsWrap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @DashboardApp/SettingsWrap */ "./resources/js/dashboard/dashboard-app/SettingsWrap.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _Admin_store_globalDataStore__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @Admin/store/globalDataStore */ "./resources/js/dashboard/store/globalDataStore.js");
+/* harmony import */ var _Utils_setInitialState__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @Utils/setInitialState */ "./resources/js/dashboard/utils/setInitialState.js");
 
 
 
@@ -66754,16 +66768,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const currentState = _Admin_store_globalDataStore__WEBPACK_IMPORTED_MODULE_6__["default"].getState();
+
+const currentState = _Admin_store_globalDataStore__WEBPACK_IMPORTED_MODULE_7__["default"].getState();
 if (!currentState.initialStateSetFlag) {
-  (0,_Utils_setInitialState__WEBPACK_IMPORTED_MODULE_7__["default"])(_Admin_store_globalDataStore__WEBPACK_IMPORTED_MODULE_6__["default"]);
+  (0,_Utils_setInitialState__WEBPACK_IMPORTED_MODULE_8__["default"])(_Admin_store_globalDataStore__WEBPACK_IMPORTED_MODULE_7__["default"]);
 }
 document.addEventListener('DOMContentLoaded', () => {
   const mountNode = document.getElementById('login-me-now-dashboard-app');
   if (mountNode) {
-    react_dom__WEBPACK_IMPORTED_MODULE_1___default().render((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_redux__WEBPACK_IMPORTED_MODULE_5__.Provider, {
-      store: _Admin_store_globalDataStore__WEBPACK_IMPORTED_MODULE_6__["default"]
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DashboardApp_SettingsWrap__WEBPACK_IMPORTED_MODULE_4__["default"], null)), mountNode);
+    react_dom__WEBPACK_IMPORTED_MODULE_1___default().render((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_redux__WEBPACK_IMPORTED_MODULE_6__.Provider, {
+      store: _Admin_store_globalDataStore__WEBPACK_IMPORTED_MODULE_7__["default"]
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DashboardApp_SettingsWrap__WEBPACK_IMPORTED_MODULE_5__["default"], null)), mountNode);
   }
 });
 })();

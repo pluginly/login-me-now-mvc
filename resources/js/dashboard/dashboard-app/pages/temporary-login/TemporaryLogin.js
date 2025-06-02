@@ -45,10 +45,11 @@ const TemporaryLogin = () => {
       body: formData,
     })
       .then((data) => {
+        console.log('data : ', data );
         if (data.success) {
           dispatch({
             type: "GENERATE_MAGIC_LINK_POPUP",
-            payload: { ...data.data },
+            payload: { ...data },
           });
         }
       })

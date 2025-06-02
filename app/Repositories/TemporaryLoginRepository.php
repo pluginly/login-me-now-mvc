@@ -55,7 +55,7 @@ class TemporaryLoginRepository {
 
 		return [
 			'link'    => $link,
-			'message' => __( 'Login link generated successfully!', 'login-me-now' ),
+			'message' => __( 'Successfully Generated!', 'login-me-now' ),
 		];
 	}
 
